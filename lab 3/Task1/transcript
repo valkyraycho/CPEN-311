@@ -1,0 +1,190 @@
+vsim -gui work.tb_rtl_init
+# vsim -gui work.tb_rtl_init 
+# Start time: 13:54:22 on Jul 14,2024
+# Loading sv_std.std
+# Loading work.tb_rtl_init
+# Loading work.init
+add wave -position insertpoint sim:/tb_rtl_init/*
+add wave -position insertpoint  \
+sim:/tb_rtl_init/DUT/i
+# A time value could not be extracted from the current line
+run -all
+# ** Error: [FAIL], Init does not start loading memory as expected
+#    Time: 4 ps  Scope: tb_rtl_init File: C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv Line: 34
+# ** Error: [FAIL], Init is not loading 51 when expected
+#    Time: 104 ps  Scope: tb_rtl_init File: C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv Line: 41
+# ** Error: [FAIL], After running once, Init has not turned off rdy and wren signals
+#    Time: 704 ps  Scope: tb_rtl_init File: C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv Line: 48
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv(52)
+#    Time: 704 ps  Iteration: 0  Instance: /tb_rtl_init
+# Break in Module tb_rtl_init at C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv line 52
+# Compile of tb_rtl_init.sv was successful.
+run -all
+# Break key hit
+# Simulation stop requested.
+restart -f; run -all
+# Loading work.tb_rtl_init
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# ** Error: [FAIL], Init does not start loading memory as expected
+#    Time: 4 ps  Scope: tb_rtl_init File: C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv Line: 34
+# ** Error: [FAIL], Init is not loading 51 when expected
+#    Time: 104 ps  Scope: tb_rtl_init File: C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv Line: 41
+# ** Error: [FAIL], After running once, Init has not turned off rdy and wren signals
+#    Time: 704 ps  Scope: tb_rtl_init File: C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv Line: 48
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv(52)
+#    Time: 704 ps  Iteration: 0  Instance: /tb_rtl_init
+# Break in Module tb_rtl_init at C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv line 52
+restart -f; run -all
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# ** Error: [FAIL], Init does not start loading memory as expected
+#    Time: 4 ps  Scope: tb_rtl_init File: C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv Line: 34
+# ** Error: [FAIL], Init is not loading 51 when expected
+#    Time: 104 ps  Scope: tb_rtl_init File: C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv Line: 41
+# ** Error: [FAIL], After running once, Init has not turned off rdy and wren signals
+#    Time: 704 ps  Scope: tb_rtl_init File: C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv Line: 48
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv(52)
+#    Time: 704 ps  Iteration: 0  Instance: /tb_rtl_init
+# Break in Module tb_rtl_init at C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv line 52
+restart -f; run -all
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# ** Error: [FAIL], Init does not start loading memory as expected
+#    Time: 4 ps  Scope: tb_rtl_init File: C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv Line: 34
+# ** Error: [FAIL], Init is not loading 51 when expected
+#    Time: 104 ps  Scope: tb_rtl_init File: C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv Line: 41
+# ** Error: [FAIL], After running once, Init has not turned off rdy and wren signals
+#    Time: 704 ps  Scope: tb_rtl_init File: C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv Line: 48
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv(52)
+#    Time: 704 ps  Iteration: 0  Instance: /tb_rtl_init
+# Break in Module tb_rtl_init at C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv line 52
+quit -sim
+# End time: 13:57:00 on Jul 14,2024, Elapsed time: 0:02:38
+# Errors: 12, Warnings: 0
+vsim -gui work.tb_rtl_init
+# vsim -gui work.tb_rtl_init 
+# Start time: 13:57:05 on Jul 14,2024
+# Loading sv_std.std
+# Loading work.tb_rtl_init
+# Loading work.init
+add wave -position insertpoint  \
+sim:/tb_rtl_init/rst_n \
+sim:/tb_rtl_init/en \
+sim:/tb_rtl_init/rdy \
+sim:/tb_rtl_init/wren \
+sim:/tb_rtl_init/wrdata \
+sim:/tb_rtl_init/addr \
+sim:/tb_rtl_init/clk
+add wave -position insertpoint  \
+sim:/tb_rtl_init/DUT/i
+run -all
+# ** Error: [FAIL], Init does not start loading memory as expected
+#    Time: 4 ps  Scope: tb_rtl_init File: C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv Line: 34
+# ** Error: [FAIL], Init is not loading 51 when expected
+#    Time: 104 ps  Scope: tb_rtl_init File: C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv Line: 41
+# ** Error: [FAIL], After running once, Init has not turned off rdy and wren signals
+#    Time: 704 ps  Scope: tb_rtl_init File: C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv Line: 48
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv(52)
+#    Time: 704 ps  Iteration: 0  Instance: /tb_rtl_init
+# Break in Module tb_rtl_init at C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv line 52
+# Compile of tb_rtl_init.sv was successful.
+restart -f; run -all
+# Loading work.tb_rtl_init
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# ** Error: [FAIL], Init does not start loading memory as expected
+#    Time: 4 ps  Scope: tb_rtl_init File: C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv Line: 34
+# ** Error: [FAIL], Init is not loading 51 when expected
+#    Time: 104 ps  Scope: tb_rtl_init File: C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv Line: 41
+# ** Error: [FAIL], After running once, Init has not turned off rdy and wren signals
+#    Time: 704 ps  Scope: tb_rtl_init File: C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv Line: 48
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv(52)
+#    Time: 704 ps  Iteration: 0  Instance: /tb_rtl_init
+# Break in Module tb_rtl_init at C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv line 52
+# WARNING: No extended dataflow license exists
+# Compile of init.sv was successful.
+restart -f; run -all
+# Loading work.init
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# ** Error: [FAIL], Init does not start loading memory as expected
+#    Time: 4 ps  Scope: tb_rtl_init File: C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv Line: 34
+# ** Error: [FAIL], Init is not loading 51 when expected
+#    Time: 104 ps  Scope: tb_rtl_init File: C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv Line: 41
+# ** Error: [FAIL], After running once, Init has not turned off rdy and wren signals
+#    Time: 704 ps  Scope: tb_rtl_init File: C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv Line: 48
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv(52)
+#    Time: 704 ps  Iteration: 0  Instance: /tb_rtl_init
+# Break in Module tb_rtl_init at C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv line 52
+# Compile of init.sv was successful.
+restart -f; run -all
+# Loading work.init
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# [PASS], Init starts loading memory as expected
+# [PASS], Init is loading 51 when expected
+# ** Error: [FAIL], After running once, Init has not turned off rdy and wren signals
+#    Time: 704 ps  Scope: tb_rtl_init File: C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv Line: 48
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv(52)
+#    Time: 704 ps  Iteration: 0  Instance: /tb_rtl_init
+# Break in Module tb_rtl_init at C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv line 52
+# Compile of init.sv was successful.
+restart -f; run -all
+# Loading work.init
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# [PASS], Init starts loading memory as expected
+# [PASS], Init is loading 51 when expected
+# ** Error: [FAIL], After running once, Init has not turned off rdy and wren signals
+#    Time: 704 ps  Scope: tb_rtl_init File: C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv Line: 48
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv(52)
+#    Time: 704 ps  Iteration: 0  Instance: /tb_rtl_init
+# Break in Module tb_rtl_init at C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv line 52
+# Compile of init.sv was successful.
+restart -f; run -all
+# Loading work.init
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# ** Error: [FAIL], Init does not start loading memory as expected
+#    Time: 4 ps  Scope: tb_rtl_init File: C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv Line: 34
+# ** Error: [FAIL], Init is not loading 51 when expected
+#    Time: 104 ps  Scope: tb_rtl_init File: C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv Line: 41
+# [PASS], After running once, Init has turned off rdy and wren signals
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv(52)
+#    Time: 704 ps  Iteration: 0  Instance: /tb_rtl_init
+# Break in Module tb_rtl_init at C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv line 52
+# Compile of init.sv was successful.
+add wave -position insertpoint  \
+sim:/tb_rtl_init/DUT/flag
+restart -f; run -all
+# Loading work.init
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# [PASS], Init starts loading memory as expected
+# [PASS], Init is loading 51 when expected
+# [PASS], After running once, Init has turned off rdy and wren signals
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv(52)
+#    Time: 704 ps  Iteration: 0  Instance: /tb_rtl_init
+# Break in Module tb_rtl_init at C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv line 52
+# Compile of init.sv was successful.
+restart -f; run -all
+# Loading work.init
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# [PASS], Init starts loading memory as expected
+# [PASS], Init is loading 51 when expected
+# [PASS], After running once, Init has turned off rdy and wren signals
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv(52)
+#    Time: 704 ps  Iteration: 0  Instance: /tb_rtl_init
+# Break in Module tb_rtl_init at C:/CPEN-x11/CPEN-311/lab 3/Task1/tb_rtl_init.sv line 52
