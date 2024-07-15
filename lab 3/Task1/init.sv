@@ -16,36 +16,34 @@ module init (
 
     always_ff @(posedge clk) begin
         if (rst_n == 1'b0) begin  //If reset is asserted load 0 into addr 0
-            rdy  <= 1'b0;
+            rdy  <= 1'b1;
             i    <= 8'b0;
-            wren <= 1'b0;
+            wren <= 1'b1;
             flag <= 1'b0;
         end
 
-        else if (en == 1'b1) begin
-            if (i < 255 && !flag) begin  //increment loading 1 into addr 1, 2 into addr2....
-                rdy  <= 1'b0;
-                i    <= i + 1;
-                wren <= 1'b1;
-            end
+        else if (i < 255 && !flag) begin  //increment loading 1 into addr 1, 2 into addr2....
+            rdy  <= 1'b1;
+            i    <= i + 1;
+            wren <= 1'b1;
+        end
 
-            else if (i == 255) begin
-                i   <= i + 1;
-                rdy <= 1'b1;
-                flag = 1'b1;
-            end
+        else if (i == 255) begin
+            i    <= i + 1;
+            rdy  <= 1'b0;
+            wren <= 1'b0;
+            flag = 1'b1;
+        end
 
-            else begin
-                rdy  <= 1'b0;
-                wren <= 1'b0;
-            end
+        else begin
+            rdy  <= 1'b0;
+            wren <= 1'b0;
         end
     end
 
     always_comb begin
         addr   = i;
         wrdata = i;
-
     end
 
 

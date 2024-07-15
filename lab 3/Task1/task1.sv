@@ -17,11 +17,11 @@ module task1 (
     init initmodule (
         .clk(CLOCK_50),
         .rst_n(KEY[3]),
-        .en(en),
-        .rdy(rdy),
-        .addr(addr),
-        .wrdata(wrdata),
-        .wren(wren)
+        .en,
+        .rdy,
+        .addr,
+        .wrdata,
+        .wren
     );
 
     s_mem s (
