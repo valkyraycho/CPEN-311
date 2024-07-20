@@ -11,7 +11,6 @@ module ksa (
 );
     typedef enum {
         IDLE,
-        INIT,
         FETCHSI,
         CALCJ,
         FETCHSJ,
