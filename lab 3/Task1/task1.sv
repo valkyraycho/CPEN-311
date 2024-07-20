@@ -11,12 +11,19 @@ module task1 (
     output logic [9:0] LEDR
 );
 
-    wire rdy, en, wren;
-    wire [7:0] wrdata, addr, rdata;  //rdata was named by me and is the data we read from memory
+    logic en, rdy, wren;
+    logic [7:0] wrdata, addr, rdata;
+
+    logic rst_n;
+    assign rst_n = KEY[3];
+
+    logic clk;
+    assign clk = CLOCK_50;
+
 
     init initmodule (
-        .clk(CLOCK_50),
-        .rst_n(KEY[3]),
+        .clk,
+        .rst_n,
         .en,
         .rdy,
         .addr,
@@ -31,6 +38,35 @@ module task1 (
         .wren(wren),
         .q(rdata)
     );
+
+    typedef enum {
+        INIT,
+        WAIT_INIT,
+        DONE
+    } state_t;
+
+    state_t state, next_state;
+
+    always_ff @(posedge clk) begin
+        if (!rst_n) state <= INIT;
+        else state <= next_state;
+    end
+
+    always_comb begin
+        en         = 1'b0;
+        next_state = state;
+        case (state)
+            INIT: begin
+                if (rdy) begin
+                    en         = 1'b1;
+                    next_state = WAIT_INIT;
+                end
+            end
+            WAIT_INIT: if (rdy) next_state = DONE;
+            DONE: en = 1'b0;
+        endcase
+    end
+
 
     // your code here
 
