@@ -9,176 +9,88 @@ module ksa (
     output logic [ 7:0] wrdata,
     output logic        wren
 );
+    typedef enum {
+        IDLE,
+        INIT,
+        FETCHSI,
+        CALCJ,
+        FETCHSJ,
+        WRITESJ2SI,
+        WRITESI2SJ,
+        DONE
+    } state_t;
 
-    reg rdy_h, wren_h;
-    reg [7:0] addr_h, wrdata_h, i, j, si, sj, temp, key_value;
-    reg  [4:0] state;
-    wire [4:0] state_comb;
-    wire [7:0] i_wire, j_wire, si_wire, sj_wire;
+    state_t state, next_state;
+    logic [7:0] i, j, si, sj, key_value, prev_j;
 
-    assign addr       = addr_h;
-    assign wren       = wren_h;
-    assign rdy        = rdy_h;
-    assign wrdata     = wrdata_h;
-    assign state_comb = state;
-    assign i_wire     = i;
-    assign j_wire     = j;
-    assign si_wire    = si;
-    assign sj_wire    = sj;
-
-    always @(posedge clk) begin
-        if (rst_n == 1'b0) begin
-            rdy_h = 1'b1;
-            i     = 8'd0;
-            j     = 8'd0;
-        end
-
-        else if ((en == 1'b1) && (rdy == 1'b1)) begin
-            rdy_h = 1'b0;
-            state = 5'd0;
-        end
-
-
-        else if ((i == 8'd255) && (state != 5'd10)) begin
-            rdy_h = 1'b1;
-            state = 5'd10;
-        end
-
-        else if (state == 5'd0) begin
-            state = 5'd1;
-            i     = 8'd0;
-            j     = 8'd0;
-        end
-
-        else if (state == 5'd1) begin  //load si and calculate j
-            state = 5'd2;
-        end
-
-        else if (state == 5'd2) begin  //load sj
-            si    = rddata;
-            j     = (j + rddata + key_value) % 256;
-            state = 5'd8;
-        end
-
-        else if (state == 5'd8) begin  //load si and calculate j
-            state = 5'd9;
-        end
-
-        else if (state == 5'd9) begin
-            sj    = rddata;
-            state = 5'd3;
-        end
-
-        else if (state == 5'd3) begin  //send si back
-            state = 5'd4;
-        end
-
-        else if (state == 5'd4) begin  //send sj back
-            state = 5'd5;
-        end
-
-        else if (state == 5'd5) begin  //increment i
-            i <= i + 1;
-            state = 5'd6;
-        end
-
-        else if (state == 5'd6) begin  //State that determines if process is completed or not
-            if (i == 8'd0) begin
-                state = 5'd7;
-            end
-
-            else begin
-                state = 5'd1;
-            end
-        end
-
-        else if (state == 5'd10) begin
-            rdy_h = 1'b0;
+    always_ff @(posedge clk) begin
+        if (!rst_n) begin
+            state <= IDLE;
+            i     <= 8'b0;
+            j     <= 8'b0;
         end
         else begin
-            state = 5'd7;
+            state <= next_state;
+            if (state == WRITESI2SJ && next_state == FETCHSI) i <= i + 1;
+            if (state == CALCJ) j <= (j + rddata + key_value) % 256;
         end
-
     end
 
     always_comb begin
-        case (i % 3)
-            2'd0: begin
-                key_value = key[23:16];
+        // defaults
+        rdy        = 1'b0;
+        addr       = 8'b0;
+        wrdata     = 8'b0;
+        wren       = 1'b0;
+        next_state = state;
+        key_value  = key[23-8*(i%3)-:8];
+
+        case (state)
+            IDLE: begin
+                rdy = 1'b1;
+                if (en) next_state = FETCHSI;
             end
-            2'd1: begin
-                key_value = key[15:8];
+
+            FETCHSI: begin
+                addr       = i;
+                next_state = CALCJ;
             end
-            2'd2: begin
-                key_value = key[7:0];
+
+            CALCJ: begin
+                si         = rddata;
+                next_state = FETCHSJ;
             end
-            default begin
-                key_value = 8'b11111111;
+
+            FETCHSJ: begin
+                addr       = j;
+                next_state = WRITESJ2SI;
+            end
+
+            WRITESJ2SI: begin
+                sj         = rddata;
+                addr       = i;
+                wrdata     = sj;
+                wren       = 1'b1;
+                next_state = WRITESI2SJ;
+            end
+
+            WRITESI2SJ: begin
+                addr   = j;
+                wrdata = si;
+                wren   = 1'b1;
+
+                if (i == 8'd255) begin
+                    next_state = DONE;
+                end
+                else begin
+                    next_state = FETCHSI;
+                end
+            end
+
+            DONE: begin
+                rdy        = 1'b1;
+                next_state = IDLE;
             end
         endcase
     end
-
-    always_comb begin
-
-        if (rst_n == 1'b0) begin
-            wren_h   = 1'b0;
-            wrdata_h = 8'd255;
-            addr_h   = 8'd255;
-        end
-
-        if (state_comb == 5'd0) begin
-            wren_h   = 1'b0;
-            wrdata_h = 8'd255;  //salient value to make waveform analysis easier
-            addr_h   = 8'd255;  //salient value to make waveform analysis easier
-        end
-
-        else if (state_comb == 5'd1) begin  //Load si
-            wren_h   = 1'b0;
-            wrdata_h = 8'd255;
-            addr_h   = i;
-        end
-
-        else if (state_comb == 5'd2) begin  //Load sj
-            wren_h   = 1'b0;
-            wrdata_h = 8'd255;
-            addr_h   = j;
-        end
-
-        else if (state_comb == 5'd3) begin  //send si to j address
-            wren_h   = 1'b1;
-            wrdata_h = si_wire;
-            addr_h   = j;
-        end
-
-        else if (state_comb == 5'd4) begin  //send sj to i
-            wren_h   = 1'b1;
-            wrdata_h = sj_wire;
-            addr_h   = i;
-        end
-
-        else if (state_comb == 5'd5) begin  //increment i
-            wren_h   = 1'b0;
-            wrdata_h = 8'd255;
-            addr_h   = 8'd255;
-        end
-
-        else if (state_comb == 5'd6) begin  //nothing to do in combinational logic
-            wren_h   = 1'b0;
-            wrdata_h = 8'd255;
-            addr_h   = 8'd255;
-        end
-
-        else if (state_comb == 5'd8) begin  //nothing to do in combinational logic
-            wren_h   = 1'b0;
-            wrdata_h = 8'd255;
-            addr_h   = j;
-        end
-
-        else begin
-            wren_h   = 1'b0;
-            wrdata_h = 8'd255;
-            addr_h   = i;
-        end
-    end
-
 endmodule : ksa
