@@ -1,0 +1,516 @@
+# Compile of tb_rtl_task3.sv was successful.
+vsim -L altera_mf_ver work.tb_rtl_task3
+# vsim -L altera_mf_ver work.tb_rtl_task3 
+# Start time: 07:44:12 on Jul 21,2024
+# Loading sv_std.std
+# Loading work.tb_rtl_task3
+# Loading work.task3
+# Loading work.ct_mem
+# Loading altera_mf_ver.altsyncram
+# Loading work.pt_mem
+# Loading work.arc4
+# Loading work.init
+# Loading work.ksa
+# Loading work.prga
+# Loading work.s_mem
+# Loading altera_mf_ver.altsyncram_body
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
+# Loading altera_mf_ver.ALTERA_MF_MEMORY_INITIALIZATION
+add wave -position insertpoint  \
+sim:/tb_rtl_task3/rst_n \
+sim:/tb_rtl_task3/clk
+add wave -position insertpoint  \
+sim:/tb_rtl_task3/DUT/a4/init_inst/state \
+sim:/tb_rtl_task3/DUT/a4/init_inst/next_state \
+sim:/tb_rtl_task3/DUT/a4/init_inst/i
+add wave -position insertpoint  \
+sim:/tb_rtl_task3/DUT/a4/s/sub_wire0
+run -all
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv(39)
+#    Time: 204 ps  Iteration: 0  Instance: /tb_rtl_task3
+# Break in Module tb_rtl_task3 at C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv line 39
+add wave -position insertpoint  \
+sim:/tb_rtl_task3/DUT/a4/state \
+sim:/tb_rtl_task3/DUT/a4/next_state
+add wave -position insertpoint  \
+sim:/tb_rtl_task3/DUT/a4/en_init \
+sim:/tb_rtl_task3/DUT/a4/rdy_init \
+sim:/tb_rtl_task3/DUT/a4/s_addr \
+sim:/tb_rtl_task3/DUT/a4/s_addr_init \
+sim:/tb_rtl_task3/DUT/a4/s_wrdata \
+sim:/tb_rtl_task3/DUT/a4/s_wrdata_init \
+sim:/tb_rtl_task3/DUT/a4/s_wren \
+sim:/tb_rtl_task3/DUT/a4/s_wren_init
+restart -f; run -all
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv(39)
+#    Time: 204 ps  Iteration: 0  Instance: /tb_rtl_task3
+# Break in Module tb_rtl_task3 at C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv line 39
+add wave -position insertpoint  \
+sim:/tb_rtl_task3/DUT/a4/s_rddata
+restart -f; run -all
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv(39)
+#    Time: 204 ps  Iteration: 0  Instance: /tb_rtl_task3
+# Break in Module tb_rtl_task3 at C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv line 39
+# WARNING: No extended dataflow license exists
+quit -sim
+# End time: 07:48:55 on Jul 21,2024, Elapsed time: 0:04:43
+# Errors: 0, Warnings: 1
+# Compile of tb_rtl_task3.sv was successful.
+# Compile of arc4.sv was successful.
+# Compile of ct_mem.v was successful.
+# Compile of prga.sv was successful.
+# Compile of pt_mem.v was successful.
+# Compile of task3.sv was successful.
+# Compile of tb_rtl_arc4.sv was successful.
+# Compile of tb_rtl_prga.sv was successful.
+# Compile of s_mem.v was successful.
+# Compile of init.sv was successful.
+# Compile of ksa.sv was successful.
+# 11 compiles, 0 failed with no errors.
+# Compile of tb_rtl_arc4.sv was successful.
+# Compile of tb_rtl_arc4.sv was successful.
+vsim -L altera_mf_ver work.tb_rtl_arc4
+# vsim -L altera_mf_ver work.tb_rtl_arc4 
+# Start time: 07:53:42 on Jul 21,2024
+# Loading sv_std.std
+# Loading work.tb_rtl_arc4
+# Loading work.arc4
+# Loading work.init
+# Loading work.ksa
+# Loading work.prga
+# Loading work.s_mem
+# Loading altera_mf_ver.altsyncram
+# Loading altera_mf_ver.altsyncram_body
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
+# Loading altera_mf_ver.ALTERA_MF_MEMORY_INITIALIZATION
+add wave -position insertpoint  \
+sim:/tb_rtl_arc4/rst_n \
+sim:/tb_rtl_arc4/clk
+add wave -position insertpoint  \
+sim:/tb_rtl_arc4/DUT/en_init \
+sim:/tb_rtl_arc4/DUT/rdy_init \
+sim:/tb_rtl_arc4/DUT/s_addr \
+sim:/tb_rtl_arc4/DUT/s_addr_init \
+sim:/tb_rtl_arc4/DUT/s_wrdata \
+sim:/tb_rtl_arc4/DUT/s_wrdata_init \
+sim:/tb_rtl_arc4/DUT/s_rddata \
+sim:/tb_rtl_arc4/DUT/s_wren \
+sim:/tb_rtl_arc4/DUT/s_wren_init \
+sim:/tb_rtl_arc4/DUT/state \
+sim:/tb_rtl_arc4/DUT/next_state
+add wave -position insertpoint  \
+sim:/tb_rtl_arc4/DUT/init_inst/state \
+sim:/tb_rtl_arc4/DUT/init_inst/next_state \
+sim:/tb_rtl_arc4/DUT/init_inst/i
+run -akk
+# Unknown option: akk
+# ** Error: (vsim-4005) Invalid argument '-akk'.
+# Usage: run [<timesteps> [<time_units>]] | -all | -continue | -next | -step | -over | -out | -init | -final
+run -all
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_arc4.sv(39)
+#    Time: 502 ps  Iteration: 0  Instance: /tb_rtl_arc4
+# Break in Module tb_rtl_arc4 at C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_arc4.sv line 39
+add wave -position insertpoint  \
+sim:/tb_rtl_arc4/DUT/s/sub_wire0
+run -all
+# Break key hit
+# Break in Module tb_rtl_arc4 at C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_arc4.sv line 28
+restart -f;run -all
+# Trace back: Error QStructure::sort: invalid command name "::SimDataset::structTreeView3"
+#   <4:proc:11: ::QStructure::sort .main_pane.structure 2 ascending
+#   <3:eval:1: ::QStructure::structsort .main_pane.structure 2 ascending
+#   <2:eval:1: ::namespace inscope ::QStructure {structsort .main_pane.structure} 2 ascending
+#   >1:proc:26: ::.main_pane.structure.interior.cs.body.struct sort 2
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_arc4.sv(39)
+#    Time: 502 ps  Iteration: 0  Instance: /tb_rtl_arc4
+# Break in Module tb_rtl_arc4 at C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_arc4.sv line 39
+restart -f;run -all
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_arc4.sv(39)
+#    Time: 502 ps  Iteration: 0  Instance: /tb_rtl_arc4
+# Break in Module tb_rtl_arc4 at C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_arc4.sv line 39
+add wave -position insertpoint  \
+sim:/tb_rtl_arc4/DUT/s/address \
+sim:/tb_rtl_arc4/DUT/s/data \
+sim:/tb_rtl_arc4/DUT/s/wren \
+sim:/tb_rtl_arc4/DUT/s/q
+restart -f;run -all
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_arc4.sv(39)
+#    Time: 502 ps  Iteration: 0  Instance: /tb_rtl_arc4
+# Break in Module tb_rtl_arc4 at C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_arc4.sv line 39
+# Compile of arc4.sv was successful.
+restart -f;run -all
+# Loading work.arc4
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_arc4.sv(39)
+#    Time: 502 ps  Iteration: 0  Instance: /tb_rtl_arc4
+# Break in Module tb_rtl_arc4 at C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_arc4.sv line 39
+add wave -position insertpoint  \
+sim:/tb_rtl_arc4/DUT/s/clock
+add wave -position insertpoint  \
+sim:/tb_rtl_arc4/DUT/s/clock
+quit -sim
+# End time: 07:59:28 on Jul 21,2024, Elapsed time: 0:05:46
+# Errors: 1, Warnings: 0
+vsim -L altera_mf_ver work.tb_rtl_task3
+# vsim -L altera_mf_ver work.tb_rtl_task3 
+# Start time: 07:59:34 on Jul 21,2024
+# Loading sv_std.std
+# Loading work.tb_rtl_task3
+# Loading work.task3
+# Loading work.ct_mem
+# Loading altera_mf_ver.altsyncram
+# Loading work.pt_mem
+# Loading work.arc4
+# Loading work.init
+# Loading work.ksa
+# Loading work.prga
+# Loading work.s_mem
+# Loading altera_mf_ver.altsyncram_body
+# Loading altera_mf_ver.ALTERA_DEVICE_FAMILIES
+# Loading altera_mf_ver.ALTERA_MF_MEMORY_INITIALIZATION
+add wave -position insertpoint  \
+sim:/tb_rtl_task3/rst_n \
+sim:/tb_rtl_task3/clk
+add wave -position insertpoint  \
+sim:/tb_rtl_task3/DUT/a4/s/sub_wire0
+add wave -position insertpoint  \
+sim:/tb_rtl_task3/DUT/a4/en_init \
+sim:/tb_rtl_task3/DUT/a4/rdy_init
+add wave -position insertpoint  \
+sim:/tb_rtl_task3/DUT/a4/s_addr \
+sim:/tb_rtl_task3/DUT/a4/s_addr_init
+add wave -position insertpoint  \
+sim:/tb_rtl_task3/DUT/a4/s_wrdata \
+sim:/tb_rtl_task3/DUT/a4/s_wrdata_init
+add wave -position insertpoint  \
+sim:/tb_rtl_task3/DUT/a4/s_rddata \
+sim:/tb_rtl_task3/DUT/a4/s_wren \
+sim:/tb_rtl_task3/DUT/a4/s_wren_init
+add wave -position insertpoint  \
+sim:/tb_rtl_task3/DUT/a4/state \
+sim:/tb_rtl_task3/DUT/a4/next_state
+add wave -position insertpoint  \
+sim:/tb_rtl_task3/DUT/a4/init_inst/state \
+sim:/tb_rtl_task3/DUT/a4/init_inst/next_state \
+sim:/tb_rtl_task3/DUT/a4/init_inst/i
+run -all
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv(39)
+#    Time: 204 ps  Iteration: 0  Instance: /tb_rtl_task3
+# Break in Module tb_rtl_task3 at C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv line 39
+# Compile of tb_rtl_task3.sv was successful.
+restart -f; run -all
+# Loading work.tb_rtl_task3
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv(38)
+#    Time: 3102 ps  Iteration: 0  Instance: /tb_rtl_task3
+# Break in Module tb_rtl_task3 at C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv line 38
+add wave -position insertpoint  \
+sim:/tb_rtl_task3/DUT/a4/ksa_inst/state \
+sim:/tb_rtl_task3/DUT/a4/ksa_inst/next_state \
+sim:/tb_rtl_task3/DUT/a4/ksa_inst/i \
+sim:/tb_rtl_task3/DUT/a4/ksa_inst/j \
+sim:/tb_rtl_task3/DUT/a4/ksa_inst/si \
+sim:/tb_rtl_task3/DUT/a4/ksa_inst/sj \
+sim:/tb_rtl_task3/DUT/a4/ksa_inst/key_value
+# Compile of tb_rtl_task3.sv was successful.
+add wave -position insertpoint  \
+sim:/tb_rtl_task3/DUT/a4/en_ksa \
+sim:/tb_rtl_task3/DUT/a4/rdy_ksa
+add wave -position insertpoint  \
+sim:/tb_rtl_task3/DUT/a4/s_addr_ksa
+add wave -position insertpoint  \
+sim:/tb_rtl_task3/DUT/a4/s_wrdata_ksa
+add wave -position insertpoint  \
+sim:/tb_rtl_task3/DUT/a4/s_wren_ksa
+restart -f; run -all
+# Loading work.tb_rtl_task3
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv(38)
+#    Time: 3102 ps  Iteration: 0  Instance: /tb_rtl_task3
+# Break in Module tb_rtl_task3 at C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv line 38
+# Compile of tb_rtl_task3.sv was successful with warnings.
+restart -f; run -all
+# Loading work.tb_rtl_task3
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv(38)
+#    Time: 6002 ps  Iteration: 0  Instance: /tb_rtl_task3
+# Break in Module tb_rtl_task3 at C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv line 38
+# Compile of tb_rtl_task3.sv was successful.
+restart -f; run -all
+# Loading work.tb_rtl_task3
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv(38)
+#    Time: 6002 ps  Iteration: 0  Instance: /tb_rtl_task3
+# Break in Module tb_rtl_task3 at C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv line 38
+add wave -position insertpoint  \
+sim:/tb_rtl_task3/DUT/a4/en_prga \
+sim:/tb_rtl_task3/DUT/a4/rdy_prga \
+sim:/tb_rtl_task3/DUT/a4/s_addr_prga \
+sim:/tb_rtl_task3/DUT/a4/s_wrdata_prga \
+sim:/tb_rtl_task3/DUT/a4/s_wren_prga
+add wave -position insertpoint  \
+sim:/tb_rtl_task3/DUT/ct/sub_wire0
+add wave -position insertpoint sim:/tb_rtl_task3/DUT/pt/*
+add wave -position insertpoint  \
+sim:/tb_rtl_task3/DUT/a4/prga_inst/state \
+sim:/tb_rtl_task3/DUT/a4/prga_inst/next_state \
+sim:/tb_rtl_task3/DUT/a4/prga_inst/i \
+sim:/tb_rtl_task3/DUT/a4/prga_inst/j \
+sim:/tb_rtl_task3/DUT/a4/prga_inst/k \
+sim:/tb_rtl_task3/DUT/a4/prga_inst/si \
+sim:/tb_rtl_task3/DUT/a4/prga_inst/sj \
+sim:/tb_rtl_task3/DUT/a4/prga_inst/msg_len \
+sim:/tb_rtl_task3/DUT/a4/prga_inst/pad \
+sim:/tb_rtl_task3/DUT/a4/prga_inst/ct
+add wave -position insertpoint  \
+sim:/tb_rtl_task3/DUT/ct_addr \
+sim:/tb_rtl_task3/DUT/ct_wrdata \
+sim:/tb_rtl_task3/DUT/ct_rddata \
+sim:/tb_rtl_task3/DUT/pt_addr \
+sim:/tb_rtl_task3/DUT/pt_wrdata \
+sim:/tb_rtl_task3/DUT/pt_rddata \
+sim:/tb_rtl_task3/DUT/ct_wren \
+sim:/tb_rtl_task3/DUT/pt_wren
+restart -f; run -all
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv(38)
+#    Time: 6002 ps  Iteration: 0  Instance: /tb_rtl_task3
+# Break in Module tb_rtl_task3 at C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv line 38
+# Compile of tb_rtl_task3.sv was successful.
+# Compile of task3.sv was successful.
+# 2 compiles, 0 failed with no errors.
+restart -f; run -all
+# Loading work.tb_rtl_task3
+# Loading work.task3
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv(38)
+#    Time: 3104 ps  Iteration: 0  Instance: /tb_rtl_task3
+# Break in Module tb_rtl_task3 at C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv line 38
+# Compile of tb_rtl_task3.sv was successful.
+restart -f; run -all
+# Loading work.tb_rtl_task3
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv(38)
+#    Time: 3202 ps  Iteration: 0  Instance: /tb_rtl_task3
+# Break in Module tb_rtl_task3 at C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv line 38
+# Compile of tb_rtl_task3.sv was successful.
+restart -f; run -all
+# Loading work.tb_rtl_task3
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv(38)
+#    Time: 3122 ps  Iteration: 0  Instance: /tb_rtl_task3
+# Break in Module tb_rtl_task3 at C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv line 38
+add wave -position insertpoint  \
+sim:/tb_rtl_task3/DUT/a4/key
+restart -f; run -all
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv(38)
+#    Time: 3122 ps  Iteration: 0  Instance: /tb_rtl_task3
+# Break in Module tb_rtl_task3 at C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv line 38
+# Compile of tb_rtl_task3.sv was successful.
+restart -f; run -all
+# Loading work.tb_rtl_task3
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv(38)
+#    Time: 3122 ps  Iteration: 0  Instance: /tb_rtl_task3
+# Break in Module tb_rtl_task3 at C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv line 38
+# Compile of tb_rtl_task3.sv was successful.
+restart -f; run -all
+# Loading work.tb_rtl_task3
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv(38)
+#    Time: 3104 ps  Iteration: 0  Instance: /tb_rtl_task3
+# Break in Module tb_rtl_task3 at C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv line 38
+add wave -position insertpoint  \
+sim:/tb_rtl_task3/DUT/a4/state
+# Compile of tb_rtl_task3.sv was successful.
+restart -f; run -all
+# Loading work.tb_rtl_task3
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv(38)
+#    Time: 3082 ps  Iteration: 0  Instance: /tb_rtl_task3
+# Break in Module tb_rtl_task3 at C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv line 38
+# Compile of tb_rtl_task3.sv was successful.
+restart -f; run -all
+# Loading work.tb_rtl_task3
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv(38)
+#    Time: 3122 ps  Iteration: 0  Instance: /tb_rtl_task3
+# Break in Module tb_rtl_task3 at C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv line 38
+# Compile of tb_rtl_task3.sv was successful.
+restart -f; run -all
+# Loading work.tb_rtl_task3
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv(38)
+#    Time: 3502 ps  Iteration: 0  Instance: /tb_rtl_task3
+# Break in Module tb_rtl_task3 at C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv line 38
+# Compile of tb_rtl_task3.sv was successful.
+restart -f; run -all
+# Loading work.tb_rtl_task3
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv(38)
+#    Time: 5002 ps  Iteration: 0  Instance: /tb_rtl_task3
+# Break in Module tb_rtl_task3 at C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv line 38
+# Compile of tb_rtl_task3.sv was successful.
+restart -f; run -all
+# Loading work.tb_rtl_task3
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv(38)
+#    Time: 5002 ps  Iteration: 0  Instance: /tb_rtl_task3
+# Break in Module tb_rtl_task3 at C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv line 38
+# Compile of tb_rtl_task3.sv was successful.
+restart -f; run -all
+# Loading work.tb_rtl_task3
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv(38)
+#    Time: 3082 ps  Iteration: 0  Instance: /tb_rtl_task3
+# Break in Module tb_rtl_task3 at C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv line 38
+# Compile of tb_rtl_task3.sv was successful.
+restart -f; run -all
+# Loading work.tb_rtl_task3
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv(38)
+#    Time: 5002 ps  Iteration: 0  Instance: /tb_rtl_task3
+# Break in Module tb_rtl_task3 at C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv line 38
+# Compile of tb_rtl_task3.sv was successful with warnings.
+restart -f; run -all
+# Loading work.tb_rtl_task3
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv(38)
+#    Time: 5002 ps  Iteration: 0  Instance: /tb_rtl_task3
+# Break in Module tb_rtl_task3 at C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv line 38
+# Compile of tb_rtl_task3.sv was successful.
+# Compile of prga.sv was successful.
+# 2 compiles, 0 failed with no errors.
+restart -f; run -all
+# Loading work.tb_rtl_task3
+# Loading work.prga
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv(38)
+#    Time: 5002 ps  Iteration: 0  Instance: /tb_rtl_task3
+# Break in Module tb_rtl_task3 at C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv line 38
+# Compile of tb_rtl_task3.sv was successful.
+restart -f; run -all
+# Loading work.tb_rtl_task3
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv(38)
+#    Time: 5002 ps  Iteration: 0  Instance: /tb_rtl_task3
+# Break in Module tb_rtl_task3 at C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv line 38
+restart -f; run -all
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv(38)
+#    Time: 5002 ps  Iteration: 0  Instance: /tb_rtl_task3
+# Break in Module tb_rtl_task3 at C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv line 38
+# Compile of tb_rtl_task3.sv was successful with warnings.
+restart -f; run -all
+# Loading work.tb_rtl_task3
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv(38)
+#    Time: 5002 ps  Iteration: 0  Instance: /tb_rtl_task3
+# Break in Module tb_rtl_task3 at C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv line 38
+# Compile of task3.sv was successful.
+restart -f; run -all
+# Loading work.task3
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv(38)
+#    Time: 5002 ps  Iteration: 0  Instance: /tb_rtl_task3
+# Break in Module tb_rtl_task3 at C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv line 38
+# Compile of tb_rtl_task3.sv was successful.
+# Compile of arc4.sv was successful.
+# Compile of ct_mem.v was successful.
+# Compile of prga.sv was successful.
+# Compile of pt_mem.v was successful.
+# Compile of task3.sv was successful.
+# Compile of tb_rtl_arc4.sv was successful.
+# Compile of tb_rtl_prga.sv was successful.
+# Compile of s_mem.v was successful.
+# Compile of init.sv was successful.
+# Compile of ksa.sv was successful.
+# 11 compiles, 0 failed with no errors.
+restart -f; run -all
+# Loading work.tb_rtl_task3
+# Loading work.task3
+# Loading work.ct_mem
+# Loading work.pt_mem
+# Loading work.arc4
+# Loading work.init
+# Loading work.ksa
+# Loading work.prga
+# Loading work.s_mem
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv(38)
+#    Time: 5002 ps  Iteration: 0  Instance: /tb_rtl_task3
+# Break in Module tb_rtl_task3 at C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv line 38
+add wave -position insertpoint  \
+sim:/tb_rtl_task3/DUT/WIDTH_SW \
+sim:/tb_rtl_task3/DUT/NUM_ZEROS
+restart -f; run -all
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv(38)
+#    Time: 5002 ps  Iteration: 0  Instance: /tb_rtl_task3
+# Break in Module tb_rtl_task3 at C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv line 38
+# Compile of task3.sv was successful.
+restart -f; run -all
+# Loading work.task3
+# Warning in wave window restart: (vish-4014) No objects found matching '/tb_rtl_task3/DUT/WIDTH_SW'. 
+# Warning in wave window restart: (vish-4014) No objects found matching '/tb_rtl_task3/DUT/NUM_ZEROS'. 
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# ** Note: $stop    : C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv(38)
+#    Time: 5002 ps  Iteration: 0  Instance: /tb_rtl_task3
+# Break in Module tb_rtl_task3 at C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv line 38
+quit -sim
+# End time: 13:10:02 on Jul 21,2024, Elapsed time: 5:10:28
+# Errors: 2, Warnings: 0

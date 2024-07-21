@@ -1,0 +1,265 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+dC:/CPEN-x11/CPEN-311/lab 3/Task2
+varc4
+Z0 DXx6 sv_std 3 std 0 22 AD7iAPLo6nTIKk<N0eo=D3
+Z1 !s110 1721533045
+!i10b 1
+!s100 bDnY3YaGOUfI]2CdNPbAG3
+I>aS4T2omI5l=W<184Lggo1
+Z2 VDg1SIo80bB@j0V0VzS_@n1
+!s105 arc4_sv_unit
+S1
+Z3 dC:/CPEN-x11/CPEN-311/lab 3/Task3
+w1721519913
+8C:/CPEN-x11/CPEN-311/lab 3/Task3/arc4.sv
+FC:/CPEN-x11/CPEN-311/lab 3/Task3/arc4.sv
+L0 1
+Z4 OV;L;10.5b;63
+r1
+!s85 0
+31
+Z5 !s108 1721533045.000000
+!s107 C:/CPEN-x11/CPEN-311/lab 3/Task3/arc4.sv|
+!s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/CPEN-x11/CPEN-311/lab 3/Task3/arc4.sv|
+!i113 1
+Z6 o-work work -sv
+Z7 tCvgOpt 0
+vct_mem
+R1
+!i10b 1
+!s100 fka_U^1@EOnZ<T5m]g_3g2
+I9THOdU=DL_ETb9Y8<`<F`0
+R2
+R3
+w1720831756
+8C:/CPEN-x11/CPEN-311/lab 3/Task3/ct_mem.v
+FC:/CPEN-x11/CPEN-311/lab 3/Task3/ct_mem.v
+Z8 L0 40
+R4
+r1
+!s85 0
+31
+R5
+!s107 C:/CPEN-x11/CPEN-311/lab 3/Task3/ct_mem.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/CPEN-x11/CPEN-311/lab 3/Task3/ct_mem.v|
+!i113 1
+Z9 o-work work
+R7
+vinit
+R0
+R1
+!i10b 1
+!s100 ^<[AVST2<zncb^;XKd4Q;1
+I^bV5inC395DlR@W4h;R0B2
+R2
+!s105 init_sv_unit
+S1
+R3
+w1721444330
+8C:/CPEN-x11/CPEN-311/lab 3/Task1/init.sv
+FC:/CPEN-x11/CPEN-311/lab 3/Task1/init.sv
+L0 1
+R4
+r1
+!s85 0
+31
+R5
+!s107 C:/CPEN-x11/CPEN-311/lab 3/Task1/init.sv|
+!s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/CPEN-x11/CPEN-311/lab 3/Task1/init.sv|
+!i113 1
+R6
+R7
+vksa
+R0
+R1
+!i10b 1
+!s100 deZd7C3T]XVB::9o^GD7Y3
+IklnhcfJ>loOQknjdj6kSN2
+R2
+!s105 ksa_sv_unit
+S1
+R3
+w1721459911
+8C:/CPEN-x11/CPEN-311/lab 3/Task2/ksa.sv
+FC:/CPEN-x11/CPEN-311/lab 3/Task2/ksa.sv
+L0 1
+R4
+r1
+!s85 0
+31
+R5
+!s107 C:/CPEN-x11/CPEN-311/lab 3/Task2/ksa.sv|
+!s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/CPEN-x11/CPEN-311/lab 3/Task2/ksa.sv|
+!i113 1
+R6
+R7
+vprga
+R0
+R1
+!i10b 1
+!s100 >jEA9;HKfBFoNRV=0ZQML3
+IHe;h_aPb2Z?hMa@KGAh>`3
+R2
+!s105 prga_sv_unit
+S1
+R3
+w1721531874
+8C:/CPEN-x11/CPEN-311/lab 3/Task3/prga.sv
+FC:/CPEN-x11/CPEN-311/lab 3/Task3/prga.sv
+L0 1
+R4
+r1
+!s85 0
+31
+R5
+!s107 C:/CPEN-x11/CPEN-311/lab 3/Task3/prga.sv|
+!s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/CPEN-x11/CPEN-311/lab 3/Task3/prga.sv|
+!i113 1
+R6
+R7
+vpt_mem
+R1
+!i10b 1
+!s100 E7kkM]5f;O3<mA_1kGd`O0
+IhgAL?dX;7kjF?AClH=SI32
+R2
+R3
+w1721455247
+8C:/CPEN-x11/CPEN-311/lab 3/Task3/pt_mem.v
+FC:/CPEN-x11/CPEN-311/lab 3/Task3/pt_mem.v
+R8
+R4
+r1
+!s85 0
+31
+R5
+!s107 C:/CPEN-x11/CPEN-311/lab 3/Task3/pt_mem.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/CPEN-x11/CPEN-311/lab 3/Task3/pt_mem.v|
+!i113 1
+R9
+R7
+vs_mem
+R1
+!i10b 1
+!s100 @aJ>D4Q92DjTaga4PWBO@3
+I`Woh924M?M30gihZibV9[0
+R2
+R3
+w1720922931
+8C:/CPEN-x11/CPEN-311/lab 3/Task1/s_mem.v
+FC:/CPEN-x11/CPEN-311/lab 3/Task1/s_mem.v
+R8
+R4
+r1
+!s85 0
+31
+R5
+!s107 C:/CPEN-x11/CPEN-311/lab 3/Task1/s_mem.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/CPEN-x11/CPEN-311/lab 3/Task1/s_mem.v|
+!i113 1
+R9
+R7
+vtask3
+R0
+!s110 1721533241
+!i10b 1
+!s100 _TXm>f_DJ7jZ5AS_ZSNeY1
+IIiFmRQfQbD8MY16_[zoTI0
+R2
+!s105 task3_sv_unit
+S1
+R3
+w1721533231
+8C:/CPEN-x11/CPEN-311/lab 3/Task3/task3.sv
+FC:/CPEN-x11/CPEN-311/lab 3/Task3/task3.sv
+L0 1
+R4
+r1
+!s85 0
+31
+!s108 1721533241.000000
+!s107 C:/CPEN-x11/CPEN-311/lab 3/Task3/task3.sv|
+!s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/CPEN-x11/CPEN-311/lab 3/Task3/task3.sv|
+!i113 1
+R6
+R7
+vtb_rtl_arc4
+R0
+R1
+!i10b 1
+!s100 KC;hDeech7`fL`j259IUL3
+IfS@Llo;n@;B7fZnYbY8^:0
+R2
+!s105 tb_rtl_arc4_sv_unit
+S1
+R3
+w1721519607
+8C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_arc4.sv
+FC:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_arc4.sv
+L0 2
+R4
+r1
+!s85 0
+31
+R5
+!s107 C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_arc4.sv|
+!s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_arc4.sv|
+!i113 1
+R6
+R7
+vtb_rtl_prga
+R0
+R1
+!i10b 1
+!s100 UMeWT7e8:ShT9aE:CL@Ti2
+IZQ_?zHPa9_:Hoeg[@f@1d1
+R2
+!s105 tb_rtl_prga_sv_unit
+S1
+R3
+w1719926230
+8C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_prga.sv
+FC:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_prga.sv
+L0 2
+R4
+r1
+!s85 0
+31
+R5
+!s107 C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_prga.sv|
+!s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_prga.sv|
+!i113 1
+R6
+R7
+vtb_rtl_task3
+R0
+R1
+!i10b 1
+!s100 _5C:3Xb791cczXS6>8K?Y2
+IW[8CizG4Qf5cdNSKWeZGz0
+R2
+!s105 tb_rtl_task3_sv_unit
+S1
+R3
+w1721533033
+8C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv
+FC:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv
+L0 2
+R4
+r1
+!s85 0
+31
+R5
+!s107 C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv|
+!s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_task3.sv|
+!i113 1
+R6
+R7

@@ -1,0 +1,64 @@
+{C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_arc4.sv} {1 {vlog -work work -sv -stats=none {C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_arc4.sv}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module tb_rtl_arc4
+
+Top level modules:
+	tb_rtl_arc4
+
+} {} {}} {C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_prga.sv} {1 {vlog -work work -sv -stats=none {C:/CPEN-x11/CPEN-311/lab 3/Task3/tb_rtl_prga.sv}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module tb_rtl_prga
+
+Top level modules:
+	tb_rtl_prga
+
+} {} {}} {C:/CPEN-x11/CPEN-311/lab 3/Task1/s_mem.v} {1 {vlog -work work -stats=none {C:/CPEN-x11/CPEN-311/lab 3/Task1/s_mem.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module s_mem
+
+Top level modules:
+	s_mem
+
+} {} {}} {C:/CPEN-x11/CPEN-311/lab 3/Task3/prga.sv} {1 {vlog -work work -sv -stats=none {C:/CPEN-x11/CPEN-311/lab 3/Task3/prga.sv}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module prga
+
+Top level modules:
+	prga
+
+} {} {}} {C:/CPEN-x11/CPEN-311/lab 3/Task3/arc4.sv} {1 {vlog -work work -sv -stats=none {C:/CPEN-x11/CPEN-311/lab 3/Task3/arc4.sv}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module arc4
+
+Top level modules:
+	arc4
+
+} {} {}} {C:/CPEN-x11/CPEN-311/lab 3/Task3/ct_mem.v} {1 {vlog -work work -stats=none {C:/CPEN-x11/CPEN-311/lab 3/Task3/ct_mem.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module ct_mem
+
+Top level modules:
+	ct_mem
+
+} {} {}} {C:/CPEN-x11/CPEN-311/lab 3/Task1/init.sv} {1 {vlog -work work -sv -stats=none {C:/CPEN-x11/CPEN-311/lab 3/Task1/init.sv}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module init
+
+Top level modules:
+	init
+
+} {} {}} {C:/CPEN-x11/CPEN-311/lab 3/Task2/ksa.sv} {1 {vlog -work work -sv -stats=none {C:/CPEN-x11/CPEN-311/lab 3/Task2/ksa.sv}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module ksa
+
+Top level modules:
+	ksa
+
+} {} {}} {C:/CPEN-x11/CPEN-311/lab 3/Task3/pt_mem.v} {1 {vlog -work work -stats=none {C:/CPEN-x11/CPEN-311/lab 3/Task3/pt_mem.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module pt_mem
+
+Top level modules:
+	pt_mem
+
+} {} {}}
