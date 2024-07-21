@@ -1,102 +1,142 @@
-module arc4(input logic clk, input logic rst_n,
-            input logic en, output logic rdy,
-            input logic [23:0] key,
-            output logic [7:0] ct_addr, input logic [7:0] ct_rddata,
-            output logic [7:0] pt_addr, input logic [7:0] pt_rddata, output logic [7:0] pt_wrdata, output logic pt_wren);
+module arc4 (
+    input  logic        clk,
+    input  logic        rst_n,
+    input  logic        en,
+    output logic        rdy,
+    input  logic [23:0] key,
+    output logic [ 7:0] ct_addr,
+    input  logic [ 7:0] ct_rddata,
+    output logic [ 7:0] pt_addr,
+    input  logic [ 7:0] pt_rddata,
+    output logic [ 7:0] pt_wrdata,
+    output logic        pt_wren
+);
+    logic en_init, rdy_init;
+    logic en_ksa, rdy_ksa;
+    logic en_prga, rdy_prga;
 
-    // your code here
-    reg [7:0] s_addr,s_wrdata,s_rddata,init_s_addr,ksa_s_addr,prga_s_addr,init_s_wrdata,ksa_s_wrdata,prga_s_wrdata;
-    reg s_wren,init_s_wren,ksa_s_wren,prga_s_wren,en_prga;
-    reg [3:0] state,state_comb;
+    logic [7:0] s_addr, s_addr_init, s_addr_ksa, s_addr_prga;
+    logic [7:0] s_wrdata, s_wrdata_init, s_wrdata_ksa, s_wrdata_prga;
+    logic [7:0] s_rddata;
+    logic s_wren, s_wren_init, s_wren_ksa, s_wren_prga;
 
-    reg [7:0] r_ct_addr,r_pt_addr,r_pt_wrdata;
-    reg r_pt_wren;
-    reg en_init;
-    reg rdy_init,rdy_ksa,rdy_prga;
+    typedef enum {
+        INIT,
+        WAIT_INIT,
+        KSA,
+        WAIT_KSA,
+        PRGA,
+        WAIT_PRGA,
+        DONE
+    } state_t;
 
-    assign ct_addr = r_ct_addr;
-    assign pt_addr = r_pt_addr;
-    assign pt_wrdata = r_pt_wrdata;
-    assign pt_wren = r_pt_wren;
-    assign state_comb = state;
+    state_t state, next_state;
 
-    s_mem s(.address(s_addr),.clock(clk),.data(s_wrdata),
-    .wren(s_wren),.q(s_rddata)
-    );
-
-
-    init i( 
-        .clk(clk),.rst_n(rst_n),.en(en_init),.rdy(rdy_init),
-        .addr(init_s_addr),.wrdata(init_s_wrdata),.wren(init_s_wren)
-    );
-
-    ksa k( 
-        .clk(clk),.rst_n(rst_n),.en(rdy_init),.rdy(rdy_ksa),
-        .key(key),.addr(ksa_s_addr),.rddata(s_rddata),
-        .wrdata(ksa_s_wrdata),.wren(ksa_s_wren)
-
-     );
-
-    prga p(.clk(clk),.rst_n(rst_n),.en(en_prga),
-    .rdy(rdy_prga),.key(key),.s_addr(prga_s_addr),
-    .s_rddata(s_rddata),.s_wrdata(prga_s_wrdata),.s_wren(prga_s_wren),
-    .ct_addr(r_ct_addr),.ct_rddata(ct_rddata),
-    .pt_addr(r_pt_addr),.pt_rddata(pt_rddata),
-    .pt_wrdata(r_pt_wrdata),
-    .pt_wren(r_pt_wren)
-    );
-
-    // your code here
-
-    always@(posedge clk) begin
-
-        if((rdy_prga == 1) && (en_prga == 1)) begin
-            state <= 2;
-        end
-        else if((rdy_init == 0) && (rdy_ksa == 1)) begin //Connect s wires to init
-            state <= 0;
-        end
-
-        else if((rdy_init == 1) && (rdy_ksa == 1) && (rdy_prga == 1)) begin //Connect s wires to ksa
-            state <= 1;
-        end
-        
-
+    always_ff @(posedge clk) begin
+        if (!rst_n) state <= INIT;
+        else state <= next_state;
     end
 
-    always_comb begin 
+    always_comb begin
+        if (state == INIT || state == WAIT_INIT) begin
+            s_addr   = s_addr_init;
+            s_wren   = s_wren_init;
+            s_wrdata = s_wrdata_init;
+        end
 
+        else if (state == KSA || state == WAIT_KSA) begin
+            s_addr   = s_addr_ksa;
+            s_wren   = s_wren_ksa;
+            s_wrdata = s_wrdata_ksa;
+        end
 
-        case(state_comb) 
-            0:begin
-                s_addr = init_s_addr;
-	        	s_wren = init_s_wren;
-		        s_wrdata = init_s_wrdata;
-                en_prga = 1'b0;
-            end
-             1:begin
-                s_addr = ksa_s_addr;
-	        	s_wren = ksa_s_wren;
-		        s_wrdata = ksa_s_wrdata;
-                en_prga = rdy_ksa;
-            end
-             2:begin
-                s_addr = prga_s_addr;
-	        	s_wren = prga_s_wren;
-		        s_wrdata = prga_s_wrdata;
-                en_prga = 1'b0;
-            end
+        else if (state == PRGA || state == WAIT_PRGA) begin
+            s_addr   = s_addr_prga;
+            s_wren   = s_wren_prga;
+            s_wrdata = s_wrdata_prga;
+        end
+    end
 
-            default: begin
-                s_addr = init_s_addr;
-	        	s_wren = init_s_wren;
-		        s_wrdata = init_s_wrdata;
-                en_prga = 1'b0;
+    always_comb begin
+        en_init    = 1'b0;
+        en_ksa     = 1'b0;
+        en_prga    = 1'b0;
+        next_state = state;
+        case (state)
+            INIT: begin
+                if (rdy_init) begin
+                    en_init    = 1'b1;
+                    next_state = WAIT_INIT;
+                end
             end
-
+            WAIT_INIT: if (rdy_init) next_state = KSA;
+            KSA: begin
+                en_init = 1'b0;
+                if (rdy_ksa) begin
+                    en_ksa = 1'b1;
+                    next_state = WAIT_KSA;
+                end
+            end
+            WAIT_KSA: if (rdy_ksa) next_state = PRGA;
+            PRGA: begin
+                en_ksa = 1'b0;
+                if (rdy_prga) begin
+                    en_prga = 1'b1;
+                    next_state = WAIT_PRGA;
+                end
+            end
+            WAIT_PRGA: if(rdy_prga) next_state = DONE;
+            DONE: en_ksa = 1'b0;
         endcase
-
-        
     end
 
-endmodule: arc4
+    init init_inst (
+        .clk,
+        .rst_n,
+        .en(en_init),
+        .rdy(rdy_init),
+        .addr(s_addr_init),
+        .wrdata(s_wrdata_init),
+        .wren(s_wren_init)
+    );
+
+    ksa ksa_inst (
+        .clk,
+        .rst_n,
+        .en(en_ksa),
+        .rdy(rdy_ksa),
+        .key,
+        .addr(s_addr_ksa),
+        .rddata(s_rddata),
+        .wrdata(s_wrdata_ksa),
+        .wren(s_wren_ksa)
+
+    );
+
+    prga prga_inst (
+        .clk,
+        .rst_n,
+        .en(en_prga),
+        .rdy(rdy_prga),
+        .key,
+        .s_addr(s_addr_prga),
+        .s_rddata(s_rddata),
+        .s_wrdata(s_wrdata_prga),
+        .s_wren(s_wren_prga),
+        .ct_addr,
+        .ct_rddata,
+        .pt_addr,
+        .pt_rddata,
+        .pt_wrdata,
+        .pt_wren
+    );
+
+    s_mem s (
+        .address(s_addr),
+        .clock(clk),
+        .data(s_wrdata),
+        .wren(s_wren),
+        .q(s_rddata)
+    );
+
+endmodule : arc4

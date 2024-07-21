@@ -11,16 +11,16 @@ module ksa (
 );
     typedef enum {
         IDLE,
-        FETCHSI,
-        CALCJ,
-        FETCHSJ,
-        WRITESJ2SI,
-        WRITESI2SJ,
+        FETCH_SI,
+        CALC_J,
+        FETCH_SJ,
+        WRITE_SJ2SI,
+        WRITE_SI2SJ,
         DONE
     } state_t;
 
     state_t state, next_state;
-    logic [7:0] i, j, si, sj, key_value, prev_j;
+    logic [7:0] i, j, si, sj, key_value;
 
     always_ff @(posedge clk) begin
         if (!rst_n) begin
@@ -30,8 +30,8 @@ module ksa (
         end
         else begin
             state <= next_state;
-            if (state == WRITESI2SJ && next_state == FETCHSI) i <= i + 1;
-            if (state == CALCJ) j <= (j + rddata + key_value) % 256;
+            if (state == WRITE_SI2SJ && next_state == FETCH_SI) i <= i + 1;
+            else if (state == CALC_J) j <= (j + rddata + key_value) % 256;
         end
     end
 
@@ -47,43 +47,40 @@ module ksa (
         case (state)
             IDLE: begin
                 rdy = 1'b1;
-                if (en) next_state = FETCHSI;
+                if (en) next_state = FETCH_SI;
             end
 
-            FETCHSI: begin
+            FETCH_SI: begin
                 addr       = i;
-                next_state = CALCJ;
+                next_state = CALC_J;
             end
 
-            CALCJ: begin
+            CALC_J: begin
                 si         = rddata;
-                next_state = FETCHSJ;
+                next_state = FETCH_SJ;
             end
 
-            FETCHSJ: begin
+            FETCH_SJ: begin
                 addr       = j;
-                next_state = WRITESJ2SI;
+                next_state = WRITE_SJ2SI;
             end
 
-            WRITESJ2SI: begin
+            WRITE_SJ2SI: begin
                 sj         = rddata;
                 addr       = i;
                 wrdata     = sj;
                 wren       = 1'b1;
-                next_state = WRITESI2SJ;
+                next_state = WRITE_SI2SJ;
             end
 
-            WRITESI2SJ: begin
+            WRITE_SI2SJ: begin
                 addr   = j;
                 wrdata = si;
                 wren   = 1'b1;
 
-                if (i == 8'd255) begin
-                    next_state = DONE;
-                end
-                else begin
-                    next_state = FETCHSI;
-                end
+                if (i == 8'd255) next_state = DONE;
+                else next_state = FETCH_SI;
+
             end
 
             DONE: begin

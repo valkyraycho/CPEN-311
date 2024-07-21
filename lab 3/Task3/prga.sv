@@ -15,334 +15,120 @@ module prga (
     output logic [ 7:0] pt_wrdata,
     output logic        pt_wren
 );
+    typedef enum {
+        IDLE,
+        FETCH_MSG_LEN,
+        STORE_MSG_LEN,
+        MODIFY_I,
+        FETCH_SI,
+        MODIFY_J,
+        FETCH_SJ,
+        WRITE_SJ2SI,
+        WRITE_SI2SJ,
+        FETCH_PAD_CT,
+        WRITE_PT,
+        DONE
+    } state_t;
 
-    // your code here
-    reg [7:0] i, j, si, sj, sa, ctk, plaintextk;
-    reg [8:0] k;  //K is negative
-    reg [7:0] message_length;
-    reg [7:0] r_s_addr, r_s_wrdata, r_ct_addr, r_pt_addr, r_pt_wrdata;
-    reg [4:0] state, state_comb;  //State machine state
-    reg r_s_wren, r_pt_wren, r_rdy, first_pass;
+    state_t state, next_state;
+    logic [7:0] i, j, k, si, sj;
+    logic [7:0] msg_len, pad, ct;
 
-    assign rdy        = r_rdy;
-    assign s_addr     = r_s_addr;
-    assign s_wrdata   = r_s_wrdata;
-    assign s_wren     = r_s_wren;
-    assign ct_addr    = r_ct_addr;
-    assign pt_addr    = r_pt_addr;
-    assign pt_wrdata  = r_pt_wrdata;
-    assign pt_wren    = r_pt_wren;
-    assign state_comb = state;
-
-    always @(posedge clk) begin
-        if (rst_n == 0) begin  //Reset 
-            k          <= 1;
-            i          <= 0;
-            j          <= 0;
-            r_rdy      <= 1;  //Assert ready on reset
-            first_pass <= 1;
-
+    always_ff @(posedge clk) begin
+        if (!rst_n) begin
+            state <= IDLE;
+            i     <= 8'b0;
+            j     <= 8'b0;
+            k     <= 8'b1;
         end
-
-        else begin  //Not reset
-
-            if ((en == 1) && (rdy == 1)) begin  //Find message length
-                r_rdy      <= 0;  //Deassert ready, execution begin
-                state      <= 13;  //Start executing prga
-                k          <= 1;
-                i          <= 0;
-                j          <= 0;
-                first_pass <= 1;
-            end
-
-            else begin
-                //Do nothing
-            end
-
-
-            case (state)
-
-                13: begin  //Extra state to read from mem
-                    state <= 0;
-                end
-                0: begin  //Load ct_rddata at address 0 into message length
-                    message_length <= ct_rddata;
-                    state          <= 1;
-                end
-
-                1: begin  //Increment k,i, can't read s[i] yet, set state to 2
-                    if (k < message_length) begin
-                        if (first_pass != 1) begin
-                            k <= k + 9'b000000001;
-                        end
-                        i          <= (i + 8'd1) % 256;
-                        first_pass <= 0;
-                        state      <= 2;
-                    end
-
-                    else begin
-                        //k <= -1;
-                        i     <= 0;
-                        j     <= 0;
-                        r_rdy <= 1;  //prga execution done, reassart ready (enable should deassert)
-                        state <= 14;  //Send to state to de-assert ready
-                    end
-
-                end
-
-                14: begin
-                    r_rdy <= 0;
-                end
-
-                2: begin  //Read s[i] from mem
-                    //No seq logic
-                    state <= 3;
-                end
-
-                3: begin  //Put s[i] in si
-                    si    <= s_rddata;
-                    state <= 4;
-                end
-
-                4: begin  //j=(j+si)
-                    j     <= (j + si) % 256;
-                    state <= 5;
-                end
-
-                5: begin  //Read s[j] from mem
-                    //No seq logic
-                    state <= 6;
-                end
-
-                6: begin  //Put s[j] in sj
-                    sj    <= s_rddata;
-                    state <= 7;
-                end
-
-                7: begin  //s[i]=sj (write to mem)
-                    //No seq logic
-                    state <= 16;
-                end
-
-                16: begin
-                    state <= 8;
-                end
-
-                8: begin  //s[j]=si (write to mem)
-                    //No seq logic
-                    state <= 9;
-                end
-
-                9: begin  //Read s[(si+sj)%256] and ciphertext[k] from mem
-                    //No seq logic
-                    state <= 10;
-                end
-
-                10: begin  //sa=s[(si+sj)%256] and ctk=ciphertext[k]
-                    sa    <= s_rddata;
-                    ctk   <= ct_rddata;
-                    state <= 11;
-                end
-
-                11: begin  //Plaintextk <= sa XOR ctk
-                    plaintextk <= sa ^ ctk;
-                    state      <= 12;
-                end
-
-                12: begin  //Plaintext[k] = plaintextk (write to mem)
-                    //No seq logic
-                    state <= 15;
-                end
-
-                15: begin
-                    state <= 1;
-                end
-
-                default: begin
-                    //Do nothing, not enabled
-                end
-
-            endcase
-
+        else begin
+            state <= next_state;
+            if (state == WRITE_PT && next_state == MODIFY_I) k <= k + 1;
+            else if (state == MODIFY_I) i <= (i + 1) % 256;
+            else if (state == MODIFY_J) j <= (j + si) % 256;
         end
     end
-
 
     always_comb begin
+        rdy        = 1'b0;
+        s_addr     = 8'b0;
+        s_wrdata   = 8'b0;
+        s_wren     = 1'b0;
+        ct_addr    = 8'b0;
+        pt_addr    = 8'b0;
+        pt_wrdata  = 8'b0;
+        pt_wren    = 1'b0;
+        next_state = state;
 
-        case (state_comb)
-
-            13: begin
-                r_s_wren    = 0;
-                r_pt_wren   = 0;
-                r_s_addr    = 255;
-                r_ct_addr   = 0;  //Read from address 0 for message length
-                r_pt_addr   = 255;
-                r_s_wrdata  = 255;
-                r_pt_wrdata = 255;
-
+        case (state)
+            IDLE: begin
+                rdy = 1'b1;
+                if (en) next_state = FETCH_MSG_LEN;
             end
 
-            0: begin
-                r_s_wren    = 0;
-                r_pt_wren   = 0;
-                r_s_addr    = 255;
-                r_ct_addr   = 255;
-                r_pt_addr   = 255;
-                r_s_wrdata  = 255;
-                r_pt_wrdata = 255;
-
+            FETCH_MSG_LEN: begin
+                ct_addr    = 8'b0;
+                next_state = STORE_MSG_LEN;
             end
 
-            1: begin
-                //No comb logic
-                r_s_wren    = 0;
-                r_pt_wren   = 0;
-                r_s_addr    = 255;
-                r_ct_addr   = 255;
-                r_pt_addr   = 255;
-                r_s_wrdata  = 255;
-                r_pt_wrdata = 255;
+            STORE_MSG_LEN: begin
+                msg_len    = ct_rddata;
+                next_state = MODIFY_I;
             end
 
-            2: begin  //Read s[i] from mem
-                r_s_addr    = i;
-                r_s_wren    = 0;
-                r_pt_wren   = 0;
-                r_ct_addr   = 255;
-                r_pt_addr   = 255;
-                r_s_wrdata  = 255;
-                r_pt_wrdata = 255;
+            MODIFY_I: next_state = FETCH_SI;
+
+            FETCH_SI: begin
+                s_addr     = i;
+                next_state = MODIFY_J;
             end
 
-            3: begin  //Put s[i] in si
-                //No comb logic
-                r_s_wren    = 0;
-                r_pt_wren   = 0;
-                r_s_addr    = 255;
-                r_ct_addr   = 255;
-                r_pt_addr   = 255;
-                r_s_wrdata  = 255;
-                r_pt_wrdata = 255;
+            MODIFY_J: begin
+                si         = s_rddata;
+                next_state = FETCH_SJ;
             end
 
-            4: begin  //j=(j+si)
-                //No comb logic
-                r_s_wren    = 0;
-                r_pt_wren   = 0;
-                r_s_addr    = 255;
-                r_ct_addr   = 255;
-                r_pt_addr   = 255;
-                r_s_wrdata  = 255;
-                r_pt_wrdata = 255;
+            FETCH_SJ: begin
+                s_addr     = j;
+                next_state = WRITE_SJ2SI;
             end
 
-            5: begin  //Read s[j] from mem
-                r_s_addr    = j;
-                r_s_wren    = 0;
-                r_pt_wren   = 0;
-                r_ct_addr   = 255;
-                r_pt_addr   = 255;
-                r_s_wrdata  = 255;
-                r_pt_wrdata = 255;
+            WRITE_SJ2SI: begin
+                sj         = s_rddata;
+                s_addr     = i;
+                s_wrdata   = sj;
+                s_wren     = 1'b1;
+                next_state = WRITE_SI2SJ;
             end
 
-            6: begin  //Put s[j] in sj
-                //No comb logic
-                r_s_wren    = 0;
-                r_pt_wren   = 0;
-                r_s_addr    = 255;
-                r_ct_addr   = 255;
-                r_pt_addr   = 255;
-                r_s_wrdata  = 255;
-                r_pt_wrdata = 255;
+            WRITE_SI2SJ: begin
+                s_addr     = j;
+                s_wrdata   = si;
+                s_wren     = 1'b1;
+                next_state = FETCH_PAD_CT;
             end
 
-            7: begin  //s[i]=sj (write to mem)
-                r_pt_wren   = 0;
-                r_s_wren    = 1;
-                r_s_addr    = i;
-                r_s_wrdata  = sj;
-                r_pt_addr   = 255;
-                r_ct_addr   = 255;
-                r_pt_wrdata = 255;
+            FETCH_PAD_CT: begin
+                s_addr     = (si + sj) % 256;
+                ct_addr    = k;
+                next_state = WRITE_PT;
             end
 
-            16: begin  //s[j]=si (write to mem)
-                r_pt_wren   = 0;
-                r_s_wren    = 0;
-                r_s_addr    = j;
-                r_s_wrdata  = si;
-                r_pt_addr   = 255;
-                r_ct_addr   = 255;
-                r_pt_wrdata = 255;
+            WRITE_PT: begin
+                pad       = s_rddata;
+                ct        = ct_rddata;
+                pt_addr   = k;
+                pt_wren   = 1'b1;
+                pt_wrdata = pad ^ ct;
+
+                if (k == msg_len) next_state = DONE;
+                else next_state = MODIFY_I;
             end
 
-            8: begin  //s[j]=si (write to mem)
-                r_pt_wren   = 0;
-                r_s_wren    = 1;
-                r_s_addr    = j;
-                r_s_wrdata  = si;
-                r_pt_addr   = 255;
-                r_ct_addr   = 255;
-                r_pt_wrdata = 255;
+            DONE: begin
+                rdy        = 1'b1;
+                next_state = IDLE;
             end
-
-            9: begin  //Read s[(si+sj)%256] and ciphertext[k] from mem
-                r_s_wren    = 0;
-                r_pt_wren   = 0;
-                r_s_addr    = (si + sj) % 256;
-                r_ct_addr   = k;
-                r_pt_addr   = 255;
-                r_s_wrdata  = 255;
-                r_pt_wrdata = 255;
-            end
-
-            10: begin  //sa=s[(si+sj)%256] and ctk=ciphertext[k]
-                r_s_wren    = 0;
-                r_pt_wren   = 0;
-                r_s_addr    = 255;
-                r_ct_addr   = 255;
-                r_pt_addr   = 255;
-                r_s_wrdata  = 255;
-                r_pt_wrdata = 255;
-            end
-
-            11: begin  //Plaintextk <= sa XOR ctk
-                r_s_wren    = 0;
-                r_pt_wren   = 0;
-                r_s_addr    = 255;
-                r_ct_addr   = 255;
-                r_pt_addr   = 255;
-                r_s_wrdata  = 255;
-                r_pt_wrdata = 255;
-            end
-
-            12: begin  //Plaintext[k] = plaintextk (write to mem)
-                r_s_wren    = 0;
-                r_pt_wren   = 1;
-                r_s_addr    = 255;
-                r_ct_addr   = 255;
-                r_pt_wrdata = plaintextk;
-                r_pt_addr   = k;
-                r_s_wrdata  = 255;
-            end
-
-            default: begin
-                r_s_wren    = 0;
-                r_pt_wren   = 0;
-                r_s_addr    = 255;
-                r_pt_addr   = 255;
-                r_ct_addr   = 255;
-                r_s_wrdata  = 255;
-                r_pt_wrdata = 255;
-
-            end
-
-
-
         endcase
-
     end
-
 endmodule : prga

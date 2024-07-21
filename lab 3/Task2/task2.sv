@@ -10,8 +10,8 @@ module task2 (
     output logic [6:0] HEX5,
     output logic [9:0] LEDR
 );
-    logic init_en, init_rdy;
-    logic ksa_en, ksa_rdy;
+    logic en_init, rdy_init;
+    logic en_ksa, rdy_ksa;
 
     logic [23:0] key;
     assign key = {14'd0, SW};
@@ -53,34 +53,34 @@ module task2 (
     end
 
     always_comb begin 
-        init_en    = 1'b0;
-        ksa_en     = 1'b0;
+        en_init    = 1'b0;
+        en_ksa     = 1'b0;
         next_state = state;
         case (state)
             INIT: begin
-                if (init_rdy) begin
-                    init_en    = 1'b1;
+                if (rdy_init) begin
+                    en_init    = 1'b1;
                     next_state = WAIT_INIT;
                 end
             end
-            WAIT_INIT: if (init_rdy) next_state = KSA;
+            WAIT_INIT: if (rdy_init) next_state = KSA;
             KSA: begin
-                init_en = 1'b0;
-                if (ksa_rdy) begin
-                    ksa_en = 1'b1;
+                en_init = 1'b0;
+                if (rdy_ksa) begin
+                    en_ksa = 1'b1;
                     next_state = WAIT_KSA;
                 end
             end
-            WAIT_KSA: if (ksa_rdy) next_state = DONE;
-            DONE: ksa_en = 1'b0;
+            WAIT_KSA: if (rdy_ksa) next_state = DONE;
+            DONE: en_ksa = 1'b0;
         endcase
     end
 
     init init_inst (
         .clk,
         .rst_n,
-        .en(init_en),
-        .rdy(init_rdy),
+        .en(en_init),
+        .rdy(rdy_init),
         .addr(addr_init),
         .wrdata(wrdata_init),
         .wren(wren_init)
@@ -89,8 +89,8 @@ module task2 (
     ksa ksa_inst (
         .clk,
         .rst_n,
-        .en(ksa_en),
-        .rdy(ksa_rdy),
+        .en(en_ksa),
+        .rdy(rdy_ksa),
         .key,
         .addr(addr_ksa),
         .rddata,

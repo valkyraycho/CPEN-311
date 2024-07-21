@@ -1,5 +1,5 @@
-module tb_syn_prga();
-
 `timescale 1ps / 1ps
+module tb_syn_prga ();
 
-endmodule: tb_syn_prga
+
+endmodule : tb_syn_prga
