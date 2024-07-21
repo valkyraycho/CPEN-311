@@ -43,9 +43,15 @@ module prga (
         end
         else begin
             state <= next_state;
-            if (state == WRITE_PT && next_state == MODIFY_I) k <= k + 1;
+            if (state == IDLE) begin
+                i <= 8'b0;
+                j <= 8'b0;
+                k <= 8'b1;
+            end
+            else if (state == WRITE_PT && next_state == MODIFY_I) k <= k + 1;
             else if (state == MODIFY_I) i <= (i + 1) % 256;
             else if (state == MODIFY_J) j <= (j + si) % 256;
+
         end
     end
 

@@ -30,7 +30,11 @@ module ksa (
         end
         else begin
             state <= next_state;
-            if (state == WRITE_SI2SJ && next_state == FETCH_SI) i <= i + 1;
+            if (state == IDLE) begin
+                i <= 8'b0;
+                j <= 8'b0;
+            end
+            else if (state == WRITE_SI2SJ && next_state == FETCH_SI) i <= i + 1;
             else if (state == CALC_J) j <= (j + rddata + key_value) % 256;
         end
     end

@@ -21,6 +21,7 @@ module arc4 (
     logic s_wren, s_wren_init, s_wren_ksa, s_wren_prga;
 
     typedef enum {
+        IDLE,
         INIT,
         WAIT_INIT,
         KSA,
@@ -33,7 +34,7 @@ module arc4 (
     state_t state, next_state;
 
     always_ff @(posedge clk) begin
-        if (!rst_n) state <= INIT;
+        if (!rst_n) state <= IDLE;
         else state <= next_state;
     end
 
@@ -62,7 +63,12 @@ module arc4 (
         en_ksa     = 1'b0;
         en_prga    = 1'b0;
         next_state = state;
+        rdy        = 1'b0;
         case (state)
+            IDLE: begin
+                rdy = 1'b1;
+                if (en) next_state = INIT;
+            end
             INIT: begin
                 if (rdy_init) begin
                     en_init    = 1'b1;
@@ -73,20 +79,23 @@ module arc4 (
             KSA: begin
                 en_init = 1'b0;
                 if (rdy_ksa) begin
-                    en_ksa = 1'b1;
+                    en_ksa     = 1'b1;
                     next_state = WAIT_KSA;
                 end
             end
-            WAIT_KSA: if (rdy_ksa) next_state = PRGA;
+            WAIT_KSA:  if (rdy_ksa) next_state = PRGA;
             PRGA: begin
                 en_ksa = 1'b0;
                 if (rdy_prga) begin
-                    en_prga = 1'b1;
+                    en_prga    = 1'b1;
                     next_state = WAIT_PRGA;
                 end
             end
-            WAIT_PRGA: if(rdy_prga) next_state = DONE;
-            DONE: en_ksa = 1'b0;
+            WAIT_PRGA: if (rdy_prga) next_state = DONE;
+            DONE: begin
+                rdy        = 1'b1;
+                next_state = IDLE;
+            end
         endcase
     end
 
