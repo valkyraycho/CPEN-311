@@ -1,115 +1,93 @@
 `timescale 1ps / 1ps
-module tb_syn_fillscreen();
+module tb_syn_fillscreen ();
+    //vsim -L altera_mf_ver -L cyclonev_ver -L altera_ver -L altera_lnsim_ver work.tb_rtl_fillscreen
+    logic clk, rst_n, VGA_HS, VGA_VS, VGA_CLK, VGA_PLOT;
+    logic [2:0] VGA_COLOUR;
+    logic [6:0] VGA_Y;
+    logic [7:0] VGA_R, VGA_G, VGA_B, VGA_X;
 
+    reg start;
+    wire done;
+    reg [2:0] fill_colour = 3'bzzz;  //ignored for task2
 
-reg rst_n_s, start_s, done_s, vga_plot_s;
-reg clk_s = 1'b0;
-reg[2:0] colour_s, vga_colour_s;
-reg[7:0] vga_x_s, xcoord;
-reg[6:0] vga_y_s, ycoord;
+    // for vga module
+    logic [9:0] VGA_R_10;
+    logic [9:0] VGA_G_10;
+    logic [9:0] VGA_B_10;
+    logic VGA_BLANK, VGA_SYNC;
 
-reg [17:0] clkticks = 18'd0;
+    assign VGA_R = VGA_R_10[9:2];
+    assign VGA_G = VGA_G_10[9:2];
+    assign VGA_B = VGA_B_10[9:2];
 
+    integer clock_cycles = 0;
+    integer failed_count = 0;
 
-fillscreen DUT(.clk(clk_s), .rst_n(rst_n_s), .colour(colour_s),
-                  .start(start_s), .done(done_s),
-                  .vga_x(vga_x_s),.vga_y(vga_y_s),
-                  .vga_colour(vga_colour_s), .vga_plot(vga_plot_s));
-				  
-initial begin
-	forever begin
-		clk_s = ~clk_s;
-		#1;
-	end
-end
+    fillscreen fs (
+        .clk,
+        .rst_n,
+        .colour(fill_colour),
+        .start,
+        .done,
+        .vga_x(VGA_X),
+        .vga_y(VGA_Y),
+        .vga_colour(VGA_COLOUR),
+        .vga_plot(VGA_PLOT)
+    );
 
-initial begin //Success case
-rst_n_s = 1'b0;
-#1;
-rst_n_s = 1'b1;
-#1;
-start_s = 1'b1;
-#3;
-assert((vga_colour_s === 3'd0) && (vga_y_s === 7'd1) && (vga_x_s === 8'd0))begin
-	$display("[PASS], The colour and coordinates are correct after the 1st cycle");
-end else begin
-	$error("[FAIL], The colour and coordinates are incorrect after the 1st cycle");
-end
-#2;
-assert((vga_colour_s === 3'd0) && (vga_y_s === 7'd2) && (vga_x_s === 8'd0))begin
-	$display("[PASS], The colour and coordinates are correct after the 2nd cycle");
-end else begin
-	$error("[FAIL], The colour and coordinates are incorrect after the 2nd cycle");
-end
-#2;
-assert((vga_colour_s === 3'd0) && (vga_y_s === 7'd3) && (vga_x_s === 8'd0))begin
-	$display("[PASS], The colour and coordinates are correct after the 3rd cycle");
-end else begin
-	$error("[FAIL], The colour and coordinates are incorrect after the 3rd cycle");
-end
-#2;
-assert((vga_colour_s === 3'd0) && (vga_y_s === 7'd4) && (vga_x_s === 8'd0))begin
-	$display("[PASS], The colour and coordinates are correct after the 4th cycle");
-end else begin
-	$error("[FAIL], The colour and coordinates are incorrect after the 4th cycle");
-end
-#2;
-assert((vga_colour_s === 3'd0) && (vga_y_s === 7'd5) && (vga_x_s === 8'd0))begin
-	$display("[PASS], The colour and coordinates are correct after the 5th cycle");
-end else begin
-	$error("[FAIL], The colour and coordinates are incorrect after the 5th cycle");
-end
-#2;
-assert((vga_colour_s === 3'd0) && (vga_y_s === 7'd6) && (vga_x_s === 8'd0))begin
-	$display("[PASS], The colour and coordinates are correct after the 6th cycle");
-end else begin
-	$error("[FAIL], The colour and coordinates are incorrect after the 6th cycle");
-end
-#2;
-assert((vga_colour_s === 3'd0) && (vga_y_s === 7'd7) && (vga_x_s === 8'd0))begin
-	$display("[PASS], The colour and coordinates are correct after the 7th cycle");
-end else begin
-	$error("[FAIL], The colour and coordinates are incorrect after the 7th cycle");
-end
-#500;
-assert((vga_colour_s === 3'd2) && (vga_y_s === 7'd17) && (vga_x_s === 8'd2))begin
-	$display("[PASS], The colour and coordinates are correct after the 258th cycle");
-end else begin
-	$error("[FAIL], The colour and coordinates are incorrect after the 258th cycle");
-end
-#2;
-assert((vga_colour_s === 3'd2) && (vga_y_s === 7'd18) && (vga_x_s === 8'd2))begin
-	$display("[PASS], The colour and coordinates are correct after the 259th cycle");
-end else begin
-	$error("[FAIL], The colour and coordinates are incorrect after the 259th cycle");
-end
-#2;
-assert((vga_colour_s === 3'd2) && (vga_y_s === 7'd19) && (vga_x_s === 8'd2))begin
-	$display("[PASS], The colour and coordinates are correct after the 260th cycle");
-end else begin
-	$error("[FAIL], The colour and coordinates are incorrect after the 260th cycle");
-end
-#2;
-assert((vga_colour_s === 3'd2) && (vga_y_s === 7'd20) && (vga_x_s === 8'd2))begin
-	$display("[PASS], The colour and coordinates are correct after the 261th cycle");
-end else begin
-	$error("[FAIL], The colour and coordinates are incorrect after the 261th cycle");
-end
-#2;
-assert((vga_colour_s === 3'd2) && (vga_y_s === 7'd21) && (vga_x_s === 8'd2))begin
-	$display("[PASS], The colour and coordinates are correct after the 262th cycle");
-end else begin
-	$error("[FAIL], The colour and coordinates are incorrect after the 262th cycle");
-end
-#38166;
-assert((done_s === 1'd1))begin
-	$display("[PASS], Done is asserted after module finishes");
-end else begin
-	$error("[FAIL], Done is not asserted after module finishes");
-end
-//No automated test. Verification done via comparing the final s memory to our expected result in memory viewer.
-$stop;
+    vga_adapter #(
+        .RESOLUTION("160x120")
+    ) vga_u0 (
+        .resetn(rst_n),
+        .clock(clk),
+        .colour(VGA_COLOUR),
+        .x(VGA_X),
+        .y(VGA_Y),
+        .plot(VGA_PLOT),
+        .VGA_R(VGA_R_10),
+        .VGA_G(VGA_G_10),
+        .VGA_B(VGA_B_10),
+        .*
+    );
 
-end
+    task check_output(integer out, integer expected_out, string msg);
+        assert (out === expected_out) begin
+            $display("[PASS] %s: output is %7b (expected: %7b)", msg, out, expected_out);
+        end
+        else begin
+            $error("[FAIL] %s: output is %7b (expected: %7b)", msg, out, expected_out);
+            failed_count = failed_count + 1;
+        end
+    endtask
 
-endmodule: tb_syn_fillscreen
+    initial begin
+        clk = 0;
+        forever #1 clk = ~clk;
+    end
+
+    initial begin
+        rst_n = 1'b0;
+        #2;
+        rst_n = 1'b1;
+        #2;
+        start = 1'b1;
+        #3;
+        start = 1'b0;
+
+        for (int i = 0; i < 19210; i++) begin  // this is max allotted time
+            if (done != 1'b1) begin
+                #10;
+                clock_cycles = clock_cycles + 1;
+                if (VGA_PLOT == 1 && (VGA_X < 0 || VGA_X >= 160 || VGA_Y < 0 || VGA_Y >= 120)) begin
+                    $error("[FAIL] WRITE TO OUT OF BOUNDS X: %d, Y: %d", VGA_X, VGA_Y);
+                end
+            end
+            else start = 0;
+        end
+
+        check_output(done, 1, "checking if done in allotted time");
+        $display("Clock cycles: %d", clock_cycles);
+
+        $stop;
+    end
+endmodule : tb_syn_fillscreen
