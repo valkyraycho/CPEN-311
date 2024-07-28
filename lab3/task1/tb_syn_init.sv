@@ -1,51 +1,64 @@
-
-`timescale 1ps / 1ps
+`timescale 1 ps / 1 ps
 module tb_syn_init();
 
-reg rst_n_s, en_s, rdy_s, wren_s;
-reg[7:0] wrdata_s, addr_s;
-reg clk_s = 1'b0;
-init DUT (
-.clk(clk_s),.rst_n(rst_n_s),
-            .en(en_s), .rdy(rdy_s),
-            .addr(addr_s), .wrdata(wrdata_s), .wren(wren_s)
-);
+reg clk, rst_n, en;
+wire rdy, wren;
+wire [7:0] addr, wrdata;
+
+integer failed_count = 0;
+
+init dut(.clk, .rst_n, .en, .rdy, .addr, .wrdata, .wren);
+
+task clock; clk <= 1'b0; #5; clk <= 1'b1; #5; endtask
+task reset; rst_n <= 1'b0; #5; rst_n <= 1'b1; #5; endtask
+
+task check_output(integer out, integer expected_out, string msg);
+    assert (out === expected_out) begin
+        $display("[PASS] %s: output is %7b (expected: %7b)", msg, out, expected_out);
+    end
+    else begin
+        $error("[FAIL] %s: output is %7b (expected: %7b)", msg, out, expected_out);
+        failed_count = failed_count + 1;
+    end
+endtask
+
 initial begin
-	forever begin
-		clk_s = ~clk_s;
-		#1;
-	end
+    reset();
+    check_output(rdy, 1'b1, "Checking rdy when reset");
+
+    en <= 1;
+    clock();
+    en <= 0;
+
+    check_output(rdy, 1'b0, "Checking rdy when en = 1");
+
+    $display("one full uninterrupted cycle");
+
+    for (int i = 0; i < 255; i++) begin
+        $display("-- i = %d --", i);
+        clock();
+        check_output(addr, i, "Checking addr");
+        check_output(wrdata, i, "Checking wrdata");
+        check_output(wren, 1'b1, "Checking wren");
+        check_output(rdy, 1'b0, "Checking rdy");
+    end
+    
+    clock();
+
+    //255th iteration
+    check_output(rdy, 1'b1, "Checking ready after completing loop");
+    check_output(wren, 1'b1, "Checking not wren after completing loop");
+
+    for (int i = 0; i < 5; i++)
+        clock();
+        
+    check_output(rdy, 1'b1, "Checking ready after completing loop");
+    check_output(wren, 1'b0, "Checking not wren after completing loop");
+
+    reset();
+
+    $display("Total number of tests failed is: %d", failed_count);
+    $stop;
 end
-
-
-initial begin //Success case
-
-rst_n_s = 1'b0;
-#2;
-rst_n_s = 1'b1;
-#2;
-assert((wren_s === 1'b1) && (rdy_s === 1'b0)&&(wrdata_s === 8'd1))begin
-	$display("[PASS], Init starts loading memory as expected");
-end else begin
-	$error("[FAIL], Init does not start loading memory as expected");
-end
-#100;
-assert((wren_s === 1'b1) && (rdy_s === 1'b0)&&(wrdata_s === 8'd51))begin
-	$display("[PASS], Init is loading 51 when expected");
-end else begin
-	$error("[FAIL], Init is not loading 51 when expected");
-end
-#600;
-assert((wren_s === 1'b0) && (rdy_s === 1'b0))begin
-	$display("[PASS], After running once, Init has turned off rdy and wren signals");
-end else begin
-	$error("[FAIL], After running once, Init has not turned off rdy and wren signals");
-end
-
-
-$stop;
-end
-
-
 
 endmodule: tb_syn_init

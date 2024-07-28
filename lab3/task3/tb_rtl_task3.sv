@@ -1,41 +1,44 @@
-`timescale 1ps / 1ps
-module tb_rtl_task3 ();
+`timescale 1 ps / 1 ps
+module tb_rtl_task3();
 
-    reg rst_n;
-    reg clk = 1'b0;
-    wire [3:0] KEY;
-    reg [9:0] SW, LEDR;
-    reg [6:0] HEX0, HEX1, HEX2, HEX3, HEX4, HEX5;
-    assign KEY[3] = rst_n;
+// vsim -L altera_mf_ver work.tb_rtl_task3
 
-    task3 DUT (
-        .CLOCK_50(clk),
-        .KEY,
-        .SW,
-        .HEX0,
-        .HEX1,
-        .HEX2,
-        .HEX3,
-        .HEX4,
-        .HEX5,
-        .LEDR
-    );
+reg CLOCK_50;   
+reg [3:0] KEY;
+reg [9:0] SW;
+wire [9:0] LEDR;
+wire [6:0] HEX5, HEX4, HEX3, HEX2, HEX1, HEX0;
 
-    initial begin
-        forever begin
-            clk = ~clk;
-            #1;
-        end
+task3 dut(.CLOCK_50, .KEY, .SW, .HEX0, .HEX1, .HEX2, .HEX3, .HEX4, .HEX5, .LEDR);
+
+task en; KEY[0] <= 1'b0; #10; KEY[0] <= 1'b1; endtask
+task reset; KEY[3] <= 1'b0; #10; KEY[3] <= 1'b1; endtask
+
+initial begin
+    CLOCK_50 <= 1'b1;
+    forever #5 CLOCK_50 = ~CLOCK_50;
+end
+
+initial begin
+    KEY[0] <= 1'b1;
+    KEY[3] <= 1'b1;
+    #10; // initialize mem module so no race condition
+    reset();
+
+    SW <= 10'b0000011000;
+    $readmemh("test2.memh", dut.ct.altsyncram_component.m_default.altsyncram_inst.mem_data);
+    #20;
+
+    en();
+
+    for (int i = 0; i <= 6000; i++) begin
+        #10;
     end
 
-    initial begin
-        $readmemh("C:/CPEN-x11/CPEN-311/lab 3/Task3/test1.memh", DUT.ct.altsyncram_component.m_default.altsyncram_inst.mem_data);
-        rst_n = 1'b0;
-        #2;
-        rst_n = 1'b1;
-        #5000;
-        $stop;
+    $displayh("pt: %p", dut.pt.altsyncram_component.m_default.altsyncram_inst.mem_data);
+    $display("expected: 4D 72 73 2E 20 44 61 6C 6C 6F 77 61 79 20 73 61 69 64 20 73 68 65 20 77 6F 75 6C 64 20 62 75 79 20 74 68 65 20 66 6C 6F 77 65 72 73 20 68 65 72 73 65 6C 66 2E");
 
-    end
+    $stop;
+end
 
-endmodule : tb_rtl_task3
+endmodule: tb_rtl_task3

@@ -62,8 +62,8 @@ module arc4 (
         en_init    = 1'b0;
         en_ksa     = 1'b0;
         en_prga    = 1'b0;
-        next_state = state;
         rdy        = 1'b0;
+        next_state = state;
         case (state)
             IDLE: begin
                 rdy = 1'b1;
