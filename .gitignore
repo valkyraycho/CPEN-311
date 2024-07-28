@@ -13,3 +13,4 @@ transcript
 **/simulation/
 c5_pin_model_dump.txt
 *.qws
+modelsim.ini
