@@ -1,186 +1,137 @@
-module circle(input logic clk, input logic rst_n, input logic [2:0] colour,
-              input logic [7:0] centre_x, input logic [6:0] centre_y, input logic [7:0] radius,
-              input logic start, output logic done,
-              output logic [7:0] vga_x, output logic [6:0] vga_y,
-              output logic [2:0] vga_colour, output logic vga_plot);
-     // draw the circle
-     reg [7:0] offset_x;
-     reg [7:0] offset_y;
-     reg [7:0] new_offset_x;
-     reg [7:0] new_offset_y;
-     reg [3:0] state;
-     reg signed [10:0] crit;
-     reg [9:0] rvga_x;
-     reg [9:0] rvga_y;
-     reg [2:0] rvga_colour;
-     reg rvga_plot;
-     reg [8:0] pixel; //TODO: REMOVE
-     reg flag;
+module circle (
+    input  logic       clk,
+    input  logic       rst_n,
+    input  logic [2:0] colour,
+    input  logic [7:0] centre_x,
+    input  logic [6:0] centre_y,
+    input  logic [7:0] radius,
+    input  logic       start,
+    output logic       done,
+    output logic [7:0] vga_x,
+    output logic [6:0] vga_y,
+    output logic [2:0] vga_colour,
+    output logic       vga_plot
+);
+    logic [7:0] offset_x, offset_y;
+    logic signed [7:0] crit;
 
-     assign vga_x = rvga_x[7:0];
-     assign vga_y = rvga_y[6:0];
-     assign vga_plot = rvga_plot;
-     assign vga_colour = rvga_colour;
+    typedef enum {
+        IDLE,
+        OCT1,
+        OCT2,
+        OCT3,
+        OCT4,
+        OCT5,
+        OCT6,
+        OCT7,
+        OCT8,
+        DONE
+    } state_t;
 
-     
+    state_t state, next_state;
 
-always_ff @(posedge clk)begin
-     if(rst_n == 0)begin
-          state <= 0;
-          offset_y <= 0;
-          offset_x <= radius; 
-          crit <= 1 - radius;
-          done <= 0;
-          pixel <= 0; //TODO: REMOVE
-     end
+    always_ff @(posedge clk) begin
+        if (!rst_n) begin
+            state    <= IDLE;
+            offset_x <= radius;
+            offset_y <= 8'b0;
+            crit     <= 8'b1 - radius;
+        end
+        else begin
+            state <= next_state;
+            if (state == OCT7) begin
+                offset_y <= offset_y + 1;
+                if (crit <= 8'b0) crit <= crit + 2 * offset_y + 1;
+                else begin
+                    offset_x <= offset_x - 1;
+                    crit     <= crit + 2 * (offset_y - offset_x) + 1;
+                end
+            end
+        end
+    end
 
-     else if(start == 1 && done == 0)begin
-
-          case (state)
-               0:begin //Check offset_y is less than or equal to offset_x
-                    if(offset_y <= offset_x)begin
-                         state <= 1;
-                    end 
-
-                    else begin
-
-                         state <= 0;
-                    end
-
-               end 
-               1:begin
-                    pixel <= pixel+8; //TODO: Debugging, maybe keep to show 
-                    state <= 2;
-               end
-               2:begin
-                    state <= 3;
-               end
-
-               3:begin
-                    state <= 4;
-               end
-
-               4:begin
-                    state <= 5;
-               end
-
-               5:begin
-                    state <= 6;
-               end
-               6:begin
-                    state <= 7;
-                    new_offset_y <= offset_y + 1;
-                    
-               end
-
-               7:begin
-                    state <= 8;
-                    if(crit <= 0)begin 
-                         crit <= crit + (2 * new_offset_y) + 1;
-                         new_offset_x <= offset_x;
-                         flag <= 1;
-                    end
-                    else begin
-                         new_offset_x <= offset_x - 1;
-                         flag <= 0;
-                         
-                    end
-               end
-               8:begin
-                    if(flag == 0) begin
-                         crit <= crit + 2 * (new_offset_y - new_offset_x) + 1;
-                    end
-                    if(new_offset_y <= new_offset_x)begin
-                         state <= 1;
-                         offset_y <= new_offset_y;
-                         offset_x <= new_offset_x;
-                    end
-                    else begin
-                         done <= 1;
-                         state <= 0;
-                    end
-               end
-               
-               default: begin
-                    state <= 0;
-               end
-          endcase
-
-     end 
-
-end     
+    // function automatic void update_vga(input logic signed [7:0] x_offset, input logic signed [6:0] y_offset);
+    //     vga_x      = centre_x + x_offset;
+    //     vga_y      = centre_y + y_offset;
+    //     vga_colour = colour;
+    //     if (vga_x >= 0 && vga_x <= 159 && vga_y >= 0 && vga_y <= 119) begin
+    //         vga_plot = 1;
+    //     end
+    // endfunction
 
 
-always_comb begin
-     case (state)
-          1: begin
-               rvga_colour = colour;
-       
-               rvga_x = centre_x + offset_x;
-               rvga_y = centre_y + offset_y;
-          end 
-          2: begin
-               rvga_colour = colour;
+    always_comb begin
+        done       = 1'b0;
+        vga_x      = 8'b0;
+        vga_y      = 7'b0;
+        vga_colour = 3'b0;
+        vga_plot   = 1'b0;
+        next_state = state;
+        case (state)
+            IDLE: if (start) next_state = OCT1;
+            OCT1: begin
+                vga_x      = centre_x + offset_x;
+                vga_y      = centre_y + offset_y;
+                vga_colour = colour;
+                if (vga_x >= 0 && vga_x <= 159 && vga_y >= 0 && vga_y <= 119) vga_plot = 1;
+                next_state = OCT2;
+            end
+            OCT2: begin
+                vga_x      = centre_x + offset_y;
+                vga_y      = centre_y + offset_x;
+                vga_colour = colour;
+                if (vga_x >= 0 && vga_x <= 159 && vga_y >= 0 && vga_y <= 119) vga_plot = 1;
+                next_state = OCT4;
+            end
+            OCT4: begin
+                vga_x      = centre_x - offset_x;
+                vga_y      = centre_y + offset_y;
+                vga_colour = colour;
+                if (vga_x >= 0 && vga_x <= 159 && vga_y >= 0 && vga_y <= 119) vga_plot = 1;
+                next_state = OCT3;
+            end
+            OCT3: begin
+                vga_x      = centre_x - offset_y;
+                vga_y      = centre_y + offset_x;
+                vga_colour = colour;
+                if (vga_x >= 0 && vga_x <= 159 && vga_y >= 0 && vga_y <= 119) vga_plot = 1;
+                next_state = OCT5;
+            end
+            OCT5: begin
+                vga_x      = centre_x - offset_x;
+                vga_y      = centre_y - offset_y;
+                vga_colour = colour;
+                if (vga_x >= 0 && vga_x <= 159 && vga_y >= 0 && vga_y <= 119) vga_plot = 1;
+                next_state = OCT6;
+            end
+            OCT6: begin
+                vga_x      = centre_x - offset_y;
+                vga_y      = centre_y - offset_x;
+                vga_colour = colour;
+                if (vga_x >= 0 && vga_x <= 159 && vga_y >= 0 && vga_y <= 119) vga_plot = 1;
+                next_state = OCT8;
+            end
+            OCT8: begin
+                vga_x      = centre_x + offset_x;
+                vga_y      = centre_y - offset_y;
+                vga_colour = colour;
+                if (vga_x >= 0 && vga_x <= 159 && vga_y >= 0 && vga_y <= 119) vga_plot = 1;
+                next_state = OCT7;
+            end
+            OCT7: begin
+                vga_x      = centre_x + offset_y;
+                vga_y      = centre_y - offset_x;
+                vga_colour = colour;
+                if (vga_x >= 0 && vga_x <= 159 && vga_y >= 0 && vga_y <= 119) vga_plot = 1;
+                if (offset_y <= offset_x) next_state = OCT1;
+                else next_state = DONE;
+            end
+            DONE: begin
+                done       = 1'b1;
+                next_state = IDLE;
+            end
+        endcase
+    end
 
-               rvga_x = centre_x + offset_y;
-               rvga_y = centre_y + offset_x;
-          end 
-          3: begin
-               rvga_colour = colour;
-               rvga_x = centre_x - offset_x;
-               rvga_y = centre_y + offset_y;
-          end 
-          4: begin
-               rvga_colour = colour;
-               rvga_x = centre_x - offset_y;
-               rvga_y = centre_y + offset_x;
-          end 
-          5: begin
-               rvga_colour = colour;
-               rvga_x = centre_x - offset_x;
-               rvga_y = centre_y - offset_y;
-          end 
-          6: begin
-               rvga_colour = colour;
-               rvga_x = centre_x - offset_y;
-               rvga_y = centre_y - offset_x;
-          end 
-          7: begin
-               rvga_colour = colour;
-               rvga_x = centre_x + offset_x;
-               rvga_y = centre_y - offset_y;
-          end 
-          8: begin
-               rvga_colour = colour;
-               rvga_x = centre_x + offset_y;
-               rvga_y = centre_y - offset_x;
-          end 
-          default: begin
-          rvga_colour = 0;
-          rvga_x = 0;
-          rvga_y = 0;
-
-          end
-
-     endcase
-
-          if((state > 0) && (state <= 8)) begin //Handles plotting outside of the screen
-               if((rvga_x <= 160) && (rvga_x > 0) && (rvga_y <= 120) && (rvga_y > 0)) begin 
-                    rvga_plot = 1;
-               end
-               else begin
-                    rvga_plot = 0;
-               end       
-          end 
-          else begin
-               rvga_plot = 0;
-          end
-
-end
-     
-
-
-
-    
 endmodule
 

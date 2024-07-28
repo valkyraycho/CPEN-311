@@ -58,7 +58,7 @@ module fillscreen (
                 vga_plot   = 1'b1;
                 vga_x      = x;
                 vga_y      = y;
-                vga_colour = x % 8;
+                vga_colour = colour == 3'bzzz ? x % 8 : colour;
                 if (x == 8'd159 && y == 7'd119) next_state = DONE;
             end
             DONE: begin
